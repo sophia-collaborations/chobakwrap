@@ -11,6 +11,9 @@ my $cbkdr;
 my $dbkfl;
 my $ringfun;
 
+my $permitay = 0;
+my $destinay;
+
 $ringfun = \&ringtalert;
 
 $hme = $ENV{"HOME"};
@@ -32,8 +35,8 @@ sub ringtalert {
   $lc_vol = 0.05;
   while ( !(findmsg($lc_code)) )
   {
-    system("echo","\n\nRINGING AFTER TASK:\n    " . $$lc_ref{"mesg"});
-    system("echo","  " . $lc_code . " -- Vol=" . $lc_vol);
+    &outptex("\n\nRINGING AFTER TASK:\n    " . $$lc_ref{"mesg"});
+    &outptex("  " . $lc_code . " -- Vol=" . $lc_vol);
     fg_invi_vol($lc_vol);
     $lc_vol = ( $lc_vol * 1.02 );
     if ( $lc_vol > 1 ) { $lc_vol = 1; }
@@ -110,13 +113,14 @@ sub justbesure {
   
   while ( &howremain($lc_hammer,$lc_left) )
   {
-    system("echo","\n\n"
+    &outptex("\n\n"
       . "JUST TO BE SURE YOU WANT TO INTERRUPT THE WHOLE PROCESS:\n"
       . "  You have " . &parcesec($lc_left) . " to enter: " . $lc_code . "\n"
       . "  (Or just \"no\" to cancel)"
     );
     if ( &findmsg($lc_code) )
     {
+      &outptex("\nOKAY --- THE PROCESS IS OVER WITH:");
       exit(0);
     }
     if ( &findmsg("no") )
@@ -147,19 +151,26 @@ sub wait {
     if ( &findmsg($lc_code) )
     {
       $$lc_ref{"at"} = &nowo;
-      system("echo","\n\nTASK ENDED EARLY: (Ringing part will be skipped.)");
+      &outptex("\n\nTASK ENDED EARLY: (Ringing part will be skipped.)");
       return;
     }
     if ( &findmsg($lc_prwcode) )
     {
       &justbesure;
     }
-    system("echo","\n\nTASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure));
-    system("echo","(Process-wide interrupt: " . $lc_prwcode . ")");
+    &outptex("\n\nTASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure));
+    &outptex("(Process-wide interrupt: " . $lc_prwcode . ")");
     if ( $lc_endure > 15 )
     {
       &do_caf(40);
-      sleep(9);
+      sleep(5);
+      if ( &findmsg($lc_code) )
+      {
+        $$lc_ref{"at"} = &nowo;
+        &outptex("\n\nTASK ENDED EARLY: (Ringing part will be skipped.)");
+        return;
+      }
+      sleep(4);
     }
     sleep(1);
   }
@@ -314,14 +325,14 @@ sub advance_by_s {
   $lc_to = int($lc_at + $_[1] + 0.2);
   $$lc_ref{"at"} = $lc_to;
   
-  system("echo",$lc_at . " : " . $lc_to);
+  &outptex($lc_at . " : " . $lc_to);
   
   &do_caf(30);
   
   $lc_lft = int(($lc_to - &nowo) + 0.2);
   while ( $lc_lft > 0.5 )
   {
-    system("echo",": " . $lc_lft);
+    &outptex(": " . $lc_lft);
     if ( $lc_lft > 10.5 )
     {
       sleep(8);
@@ -331,5 +342,33 @@ sub advance_by_s {
     $lc_lft = int(($lc_to - &nowo) + 0.2);
   }
 }
+
+sub outptex {
+  my $lc_rg;
+  my $lc_cm;
+  if ( $permitay < 5 )
+  {
+    foreach $lc_rg (@_)
+    {
+      system("echo",$lc_rg);
+    }
+    return;
+  }
+  foreach $lc_rg (@_)
+  {
+    $lc_cm = "echo";
+    &argola::wraprg_lst($lc_cm,$lc_rg);
+    $lc_cm .= " >>";
+    &argola::wraprg_lst($lc_cm,$destinay);
+    system($lc_cm);
+  }
+}
+
+sub setout {
+  $permitay = 10;
+  $destinay = $_[0];
+}
+
+
 
 1;
