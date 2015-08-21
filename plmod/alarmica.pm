@@ -144,6 +144,7 @@ sub wait {
   $lc_start = $$lc_ref{"at"};
   $lc_mesg = $$lc_ref{"mesg"};
   $lc_projend = int($lc_start + ( $_[1] * 60 ) + $_[2] + 0.2);
+  $$lc_ref{"at"} = $lc_projend;
   $lc_code = &randomica::ranstrg(8);
   $lc_prwcode = &randomica::ranstrg(8);
   while ( &howremain($lc_projend,$lc_endure) )
