@@ -132,6 +132,7 @@ sub justbesure {
 }
 
 sub wait {
+  my $lc_totrout;
   my $lc_code;
   my $lc_prwcode;
   my $lc_ref;
@@ -143,6 +144,7 @@ sub wait {
   $lc_ref = $_[0];
   $lc_start = $lc_ref->{"at"};
   $lc_mesg = $lc_ref->{"mesg"};
+  $lc_totrout = $lc_ref->{"rtnom"};
   $lc_projend = int($lc_start + ( $_[1] * 60 ) + $_[2] + 0.2);
   $lc_ref->{"at"} = $lc_projend;
   $lc_code = &randomica::ranstrg(8);
@@ -164,7 +166,10 @@ sub wait {
     {
       &justbesure;
     }
-    &outptex("\n\nTASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure));
+    &outptex("\n\n\n"
+      . "ROUTINE: " . $lc_totrout . ":\n"
+      . "\tTASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure) . "\n"
+    );
     &outptex("(Process-wide interrupt: " . $lc_prwcode . ")");
     if ( $lc_endure > 15 )
     {
@@ -260,10 +265,16 @@ sub nowo {
 sub new_res {
   my $lc_current;
   my $lc_ret;
+  my $lc_arcon;
+  my $lc_nomos;
+  
+  $lc_arcon = @_;
+  $lc_nomos = "--";
+  if ( $lc_arcon > 0.5 ) { $lc_nomos = $_[0]; }
   
   $lc_current = &nowo;
   
-  $lc_ret = { "at" => $lc_current, "from" => $lc_current };
+  $lc_ret = { "at" => $lc_current, "from" => $lc_current, "rtnom" => $lc_nomos };
   return $lc_ret;
 }
 
