@@ -31,9 +31,10 @@ sub ringtalert {
   my $lc_vol;
   
   $lc_ref = $_[0];
-  $lc_code = &randomica::ranstrg(8);
+  $lc_code = &randomica::ranstrg(4);
+  &findmsg($lc_code);
   $lc_vol = 0.05;
-  while ( !(findmsg($lc_code)) )
+  while ( !(&findmsg($lc_code)) )
   {
     &outptex("\n\nRINGING AFTER TASK:\n    " . $lc_ref->{"mesg"});
     &outptex("  " . $lc_code . " -- Vol=" . $lc_vol);
@@ -107,7 +108,8 @@ sub justbesure {
   my $lc_left;
   
   &findmsg("no");
-  $lc_code = &randomica::ranstrg(8);
+  $lc_code = &randomica::ranstrg(4);
+  findmsg($lc_code);
   
   $lc_hammer = int(&nowo + 70.2);
   
