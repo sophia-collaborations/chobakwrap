@@ -35,7 +35,7 @@ sub ringtalert {
   $lc_vol = 0.05;
   while ( !(findmsg($lc_code)) )
   {
-    &outptex("\n\nRINGING AFTER TASK:\n    " . $$lc_ref{"mesg"});
+    &outptex("\n\nRINGING AFTER TASK:\n    " . $lc_ref->{"mesg"});
     &outptex("  " . $lc_code . " -- Vol=" . $lc_vol);
     fg_invi_vol($lc_vol);
     $lc_vol = ( $lc_vol * 1.02 );
@@ -141,17 +141,22 @@ sub wait {
   my $lc_endure;
   
   $lc_ref = $_[0];
-  $lc_start = $$lc_ref{"at"};
-  $lc_mesg = $$lc_ref{"mesg"};
+  $lc_start = $lc_ref->{"at"};
+  $lc_mesg = $lc_ref->{"mesg"};
   $lc_projend = int($lc_start + ( $_[1] * 60 ) + $_[2] + 0.2);
-  $$lc_ref{"at"} = $lc_projend;
+  $lc_ref->{"at"} = $lc_projend;
   $lc_code = &randomica::ranstrg(8);
   $lc_prwcode = &randomica::ranstrg(8);
+  
+  # Purge pre-existing copies from the system:
+  &findmsg($lc_code);
+  &findmsg($lc_prwcode);
+  
   while ( &howremain($lc_projend,$lc_endure) )
   {
     if ( &findmsg($lc_code) )
     {
-      $$lc_ref{"at"} = &nowo;
+      $lc_ref->{"at"} = &nowo;
       &outptex("\n\nTASK ENDED EARLY: (Ringing part will be skipped.)");
       return;
     }
@@ -167,7 +172,7 @@ sub wait {
       sleep(5);
       if ( &findmsg($lc_code) )
       {
-        $$lc_ref{"at"} = &nowo;
+        $lc_ref->{"at"} = &nowo;
         &outptex("\n\nTASK ENDED EARLY: (Ringing part will be skipped.)");
         return;
       }
@@ -253,9 +258,22 @@ sub nowo {
 }
 
 sub new_res {
+  my $lc_current;
   my $lc_ret;
   
-  $lc_ret = { "at" => &nowo };
+  $lc_current = &nowo;
+  
+  $lc_ret = { "at" => $lc_current, "from" => $lc_current };
+  return $lc_ret;
+}
+
+
+sub res_age {
+  my $lc_res;
+  my $lc_ret;
+  
+  $lc_res = $_[0];
+  $lc_ret = int(($lc_res->{"at"} - $lc_res->{"from"}) + 0.2);
   return $lc_ret;
 }
 
@@ -321,10 +339,10 @@ sub advance_by_s {
   my $lc_to;
   my $lc_lft;
   $lc_ref = $_[0];
-  $lc_at = $$lc_ref{"at"};
+  $lc_at = $lc_ref->{"at"};
   
   $lc_to = int($lc_at + $_[1] + 0.2);
-  $$lc_ref{"at"} = $lc_to;
+  $lc_ref->{"at"} = $lc_to;
   
   &outptex($lc_at . " : " . $lc_to);
   
