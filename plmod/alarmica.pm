@@ -168,9 +168,9 @@ sub wait {
     {
       &justbesure;
     }
-    &outptex("\n\n\n"
-      . "ROUTINE: " . $lc_totrout . ":\n"
-      . "\tTASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure) . "\n"
+    &outptex("\n\n\n\n"
+      . "ROUTINE: " . $lc_totrout . ":\n\n"
+      . "TASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure) . "\n"
     );
     &outptex("(Process-wide interrupt: " . $lc_prwcode . ")");
     if ( $lc_endure > 15 )
