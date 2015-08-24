@@ -43,6 +43,7 @@ sub ringtalert {
   $lc_vol = 0.05;
   while ( !(&findmsg($lc_code)) )
   {
+    do_s_caf(5);
     &outptex("\n\nRINGING AFTER TASK:\n    " . $lc_ref->{"mesg"});
     &outptex("  " . $lc_code . " -- Vol=" . $lc_vol);
     fg_invi_vol($lc_vol);
@@ -129,6 +130,7 @@ sub justbesure {
   
   while ( &howremain($lc_hammer,$lc_left) )
   {
+    &do_caf(3);
     &outptex("\n\n\n"
       . "ROUTINE: " . $lc_totrout . ":\n"
       . "   TASK: " . $lc_mesg . ":\n"
@@ -193,7 +195,7 @@ sub wait {
     &outptex("(Process-wide interrupt: " . $lc_prwcode . ")");
     if ( $lc_endure > 15 )
     {
-      &do_caf(40);
+      &do_q_caf(40,300,$lc_endure);
       sleep(5);
       if ( &findmsg($lc_code) )
       {
@@ -273,6 +275,23 @@ sub shlc_caf {
 
 sub do_caf {
   system(&shlc_caf($_[0]));
+}
+
+sub do_s_caf {
+  my $lc_cmd;
+  $lc_cmd = "( ( caffeinate -u -t";
+  &argola::wraprg_lst($lc_cmd,$_[0]);
+  $lc_cmd .= " &bg ) 2> /dev/null )";
+  system($lc_cmd);
+}
+
+sub do_q_caf {
+  if ( $_[1] > $_[2] )
+  {
+    &do_s_caf($_[0]);
+    return;
+  }
+  &do_caf($_[0]);
 }
 
 sub nowo {
