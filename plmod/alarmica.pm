@@ -2,6 +2,7 @@ package alarmica;
 use strict;
 use randomica;
 use argola;
+use chobak_hook;
 
 my $resdir;
 my $soundfl;
@@ -13,6 +14,12 @@ my $ringfun;
 
 my $permitay = 0;
 my $destinay;
+
+my $hooks = {};
+
+sub fhooks {
+  return $hooks;
+}
 
 $ringfun = \&ringtalert;
 
@@ -123,6 +130,7 @@ sub justbesure {
     if ( &findmsg($lc_code) )
     {
       &outptex("\nOKAY --- THE PROCESS IS OVER WITH:");
+      &chobak_hook::fsquen($hooks,"ondie","");
       exit(0);
     }
     if ( &findmsg("no") )
