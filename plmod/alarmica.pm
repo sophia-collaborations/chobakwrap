@@ -113,6 +113,13 @@ sub justbesure {
   my $lc_hammer;
   my $lc_code;
   my $lc_left;
+  my $lc_ref;
+  my $lc_mesg;
+  my $lc_totrout;
+  
+  $lc_ref = $_[0];
+  $lc_mesg = $lc_ref->{"mesg"};
+  $lc_totrout = $lc_ref->{"rtnom"};
   
   &findmsg("no");
   $lc_code = &randomica::ranstrg(4);
@@ -122,7 +129,10 @@ sub justbesure {
   
   while ( &howremain($lc_hammer,$lc_left) )
   {
-    &outptex("\n\n"
+    &outptex("\n\n\n"
+      . "ROUTINE: " . $lc_totrout . ":\n"
+      . "   TASK: " . $lc_mesg . ":\n"
+      . "\n"
       . "JUST TO BE SURE YOU WANT TO INTERRUPT THE WHOLE PROCESS:\n"
       . "  You have " . &parcesec($lc_left) . " to enter: " . $lc_code . "\n"
       . "  (Or just \"no\" to cancel)"
@@ -174,7 +184,7 @@ sub wait {
     }
     if ( &findmsg($lc_prwcode) )
     {
-      &justbesure;
+      &justbesure($lc_ref);
     }
     &outptex("\n\n\n\n"
       . "ROUTINE: " . $lc_totrout . ":\n\n"
