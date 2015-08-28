@@ -117,14 +117,18 @@ sub justbesure {
   my $lc_ref;
   my $lc_mesg;
   my $lc_totrout;
+  my $lc_haltcode;
+  my $lc_start_interp;
   
   $lc_ref = $_[0];
   $lc_mesg = $lc_ref->{"mesg"};
   $lc_totrout = $lc_ref->{"rtnom"};
+  $lc_start_interp = &nowo;
   
   &findmsg("no");
-  $lc_code = &randomica::ranstrg(4);
-  findmsg($lc_code);
+  &findmsg("halt");
+  $lc_code = &randomica::ranstrg(8);
+  &findmsg($lc_code);
   
   $lc_hammer = int(&nowo + 70.2);
   
@@ -136,8 +140,9 @@ sub justbesure {
       . "   TASK: " . $lc_mesg . ":\n"
       . "\n"
       . "JUST TO BE SURE YOU WANT TO INTERRUPT THE WHOLE PROCESS:\n"
-      . "  You have " . &parcesec($lc_left) . " to enter: " . $lc_code . "\n"
-      . "  (Or just \"no\" to cancel)"
+      . "  You have " . &parcesec($lc_left) . " to enter: " . $lc_code
+      . "\n" . "  (Or just \"no\" to cancel)"
+      . "\n" . "  (Or just \"halt\" to pause)"
     );
     if ( &findmsg($lc_code) )
     {
@@ -149,6 +154,29 @@ sub justbesure {
     {
       return;
     }
+    
+    if ( &findmsg("halt") )
+    {
+      my $lc3_stb;
+      my $lc3_stc;
+      
+      $lc_haltcode = &randomica::ranstrg(6);
+      &findmsg($lc_haltcode);
+      while ( ! &findmsg($lc_haltcode) )
+      {
+        &outptex("\n\n\n"
+        . "Process in a state of halt. To undo, enter the\n"
+        . "following code:\n"
+        . "      " . $lc_haltcode );
+        sleep(5);
+      }
+      $lc3_stb = &nowo;
+      $lc3_stc = int(($lc3_stb - $lc_start_interp) + 0.2);
+      $lc_ref->{"at"} = int(($lc_ref->{"at"}) + 0.2 + $lc3_stc);
+      
+      return;
+    }
+    
     sleep(1);
   }
 }
@@ -169,8 +197,8 @@ sub wait {
   $lc_totrout = $lc_ref->{"rtnom"};
   $lc_projend = int($lc_start + ( $_[1] * 60 ) + $_[2] + 0.2);
   $lc_ref->{"at"} = $lc_projend;
-  $lc_code = &randomica::ranstrg(8);
-  $lc_prwcode = &randomica::ranstrg(8);
+  $lc_code = &randomica::ranstrg(6);
+  $lc_prwcode = &randomica::ranstrg(6);
   
   # Purge pre-existing copies from the system:
   &findmsg($lc_code);
@@ -184,13 +212,21 @@ sub wait {
       &outptex("\n\nTASK ENDED EARLY: (Ringing part will be skipped.)");
       return;
     }
+    
+    # Here is what we do if a Process-wide interrupt is invoked:
     if ( &findmsg($lc_prwcode) )
     {
       &justbesure($lc_ref);
+      $lc_projend = $lc_ref->{"at"};
+      &findmsg($lc_prwcode);
     }
+    
+    
+    # But now is the part where we output the basic message to
+    # the end-user:
     &outptex("\n\n\n\n"
       . "ROUTINE: " . $lc_totrout . ":\n\n"
-      . "TASK: " . $lc_mesg . ":\n" . $lc_code . " -- " . &parcesec($lc_endure) . "\n"
+      . "TASK: " . $lc_mesg . ":\n -- -- " . &parcesec($lc_endure) . "\n -- -- " . $lc_code . "\n"
     );
     &outptex("(Process-wide interrupt: " . $lc_prwcode . ")");
     if ( $lc_endure > 15 )
