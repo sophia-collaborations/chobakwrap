@@ -18,6 +18,13 @@ sub opto__f_set {
 sub opto__f_entr {
 }
 
+sub opto__f_rloc {
+  my $lc_a;
+  $lc_a = &argola::srcd();
+  exec("echo",$lc_a);
+  exit(0);
+} &argola::setopt("-rloc",\&opto__f_rloc);
+
 &argola::runopts;
 
 
