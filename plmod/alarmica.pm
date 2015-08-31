@@ -159,19 +159,28 @@ sub justbesure {
     {
       my $lc3_stb;
       my $lc3_stc;
+      my $lc3_wait;
       
+      $lc3_wait = 1;
       $lc_haltcode = &randomica::ranstrg(6);
       &findmsg($lc_haltcode);
       while ( ! &findmsg($lc_haltcode) )
       {
-        &outptex("\n\n\n"
-        . "Process in a state of halt. To undo, enter the\n"
-        . "following code:\n"
-        . "      " . $lc_haltcode );
+        $lc3_wait = int($lc3_wait - 0.8);
+        if ( $lc3_wait < 0.5 )
+        {
+          &outptex("\n\n\n"
+          . "Routine: " . $lc_ref->{"rtnom"} . ":\n"
+          . "Amidst: " . $lc_ref->{"mesg"} . ":\n"
+          . "Process in a state of halt. To undo, enter the\n"
+          . "following code:\n"
+          . "      " . $lc_haltcode );
+          $lc3_wait = 12;
+        }
         sleep(5);
       }
       $lc3_stb = &nowo;
-      $lc3_stc = int(($lc3_stb - $lc_start_interp) + 0.2);
+      $lc3_stc = int(($lc3_stb - $lc_start_interp) + 60.2);
       $lc_ref->{"at"} = int(($lc_ref->{"at"}) + 0.2 + $lc3_stc);
       
       return;
@@ -226,7 +235,7 @@ sub wait {
     # the end-user:
     &outptex("\n\n\n\n"
       . "ROUTINE: " . $lc_totrout . ":\n\n"
-      . "TASK: " . $lc_mesg . ":\n -- -- " . &parcesec($lc_endure) . "\n -- -- " . $lc_code . "\n"
+      . "TASK: " . $lc_mesg . ":\n\n" . &parcesec($lc_endure) . " -- " . $lc_code . "\n"
     );
     &outptex("(Process-wide interrupt: " . $lc_prwcode . ")");
     if ( $lc_endure > 15 )
@@ -258,6 +267,60 @@ sub regmsg {
   &argola::wraprg_lst($lc_cm,$dbkfl);
   system("mkdir","-p",$cbkdr);
   system($lc_cm);
+}
+
+sub clear_msg {
+  system("rm","-rf",$dbkfl);
+}
+
+sub nex_msg {
+  my $lc_ret;
+  my $lc_cm;
+  my $lc_rs;
+  my @lc_al;
+  my $lc_each;
+  my $lc_when;
+  my $lc_what;
+  my $lc_fround;
+  
+  
+  if ( ! ( -f $dbkfl ) )
+  {
+    $_[0] = "";
+    return ( 1 > 2 );
+  }
+  
+  $lc_ret = "";
+  $lc_cm = "cat";
+  &argola::wraprg_lst($lc_cm,$dbkfl);
+  $lc_cm .= " 2> /dev/null";
+  $lc_rs = `$lc_cm`;
+  &clear_msg;
+  
+  $lc_fround = 10;
+  @lc_al = split(/\n/,$lc_rs);
+  foreach $lc_each (@lc_al)
+  {
+    ($lc_when,$lc_what) = split(/:/,$lc_each,2);
+    
+    if ( $lc_fround > 5 )
+    {
+      $lc_ret = $lc_what;
+    }
+    
+    if ( $lc_fround < 5 )
+    {
+      $lc_cm = "echo";
+      &argola::wraprg_lst($lc_cm,$lc_each);
+      $lc_cm .= " >>";
+      &argola::wraprg_lst($lc_cm,$dbkfl);
+      system($lc_cm);
+    }
+    
+    $lc_fround = 0;
+  }
+  $_[0] = $lc_ret;
+  return ( 2 > 1 );
 }
 
 sub findmsg {
