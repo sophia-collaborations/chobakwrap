@@ -15,6 +15,8 @@ my $ringfun;
 my $permitay = 0;
 my $destinay;
 
+my $caf_args = "-i";
+
 my $hooks = {};
 
 sub fhooks {
@@ -367,9 +369,13 @@ sub findmsg {
 sub shlc_caf {
   my $lc_ret;
   
-  $lc_ret = "( ( caffeinate -i -t";
+  $lc_ret = "( ( caffeinate " . $caf_args . " -t";
   &argola::wraprg_lst($lc_ret,$_[0]);
   $lc_ret .= " &bg ) 2> /dev/null )";
+}
+
+sub set_caf_screen {
+  $caf_args = "-d";
 }
 
 sub do_caf {
