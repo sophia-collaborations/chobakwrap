@@ -2,8 +2,7 @@ package chobxml::toolk;
 use strict;
 use XML::Parser::Expat;
 use chobxml::toolk::basics;
-
-use Data::Dumper;
+use chobxml::toolk::extra;
 
 # This module is a higher-level library for XML parsing built
 # as a layer on-top of Expat - specifically, PERL's traditional
@@ -84,10 +83,10 @@ sub new {
   $this->{'tagset'}->{'tag_m_on'} = {};
   $this->{'tagset'}->{'tag_m_off'} = {};
   $this->{'tagset'}->{'tag_m_ls'} = [];
-  $this->{'tagset'}->{'tag_g_on'} = \&nosuchtag_on;
-  $this->{'tagset'}->{'tag_g_off'} = \&nosuchtag_off;
-  $this->{'tagset'}->{'init'} = \&parse_init;
-  $this->{'tagset'}->{'flush'} = \&parse_flush;
+  $this->{'tagset'}->{'tag_g_on'} = \&chobxml::toolk::basics::nosuchtag_on;
+  $this->{'tagset'}->{'tag_g_off'} = \&chobxml::toolk::basics::nosuchtag_off;
+  $this->{'tagset'}->{'init'} = \&chobxml::toolk::basics::parse_init;
+  $this->{'tagset'}->{'flush'} = \&chobxml::toolk::basics::parse_flush;
   $this->{'tagset'}->{'meta'} = {};
   $this->{'tagset'}->{'char'} = {};
   $this->{'tagset'}->{'char'}->{'dflt'} = \&char_dflt;
@@ -97,6 +96,16 @@ sub new {
   return $this;
 }
 
+# PROPER INTERFACE:
+# $tagset->define_tag([tagname],[open_f],[close_f]);
+#
+# The argument labeled [tagname] is a string containing the
+# name of the tag being defined.
+#
+# The function referenced by [open_f] is the chobxml::toolk
+# tag-function called when this tag is opened --- and
+# the one referenced by [close_f] is the one called
+# when the tag is closed.
 sub define_tag {
   my $this;
   $this = shift;
@@ -105,6 +114,21 @@ sub define_tag {
   $this->{'tagset'}->{'tag_m_on'}->{$_[0]} = $_[1];
   $this->{'tagset'}->{'tag_m_off'}->{$_[0]} = $_[2];
 }
+
+sub define_init {
+  my $this;
+  $this = shift;
+  $this->{'tagset'}->{'init'} = $_[0];
+}
+
+sub define_flush {
+  my $this;
+  $this = shift;
+  $this->{'tagset'}->{'flush'} = $_[0];
+}
+
+
+# ########################
 
 sub parser {
   my $this = shift;
@@ -121,52 +145,70 @@ sub parser {
       'Char' => \&chobxml::toolk::basics::lm_char
   );
   
+  $lc_hash->{'toolk'} = $this;
   $lc_hash->{'tagset'} = $this->{'tagset'};
   $lc_ini = $lc_hash->{'tagset'}->{'init'};
-  $lc_hash->{'data'} = &$lc_ini($this->{'tagset'});
-  $lc_hash->{'refs'} = 1;
+  $lc_hash->{'data'} = &$lc_ini($this->{'tagset'},$_[0]);
+  $lc_hash->{'numrefs'} = {};
+  $lc_hash->{'numrefs'}->{'count'} = 1;
   $lc_hash->{'stack'} = [];
   
   $lc_prs->{'chobak_inf'} = $lc_hash;
   return $lc_prs;
 }
 
-sub nosuchtag_on {
-  my $lc_msg;
-  $lc_msg = "\nNO SUCH TAG: ";
-  $lc_msg .= $_[1]->{'element'};
-  $lc_msg .= ": (can not open)\n\n";
-  die $lc_msg;
+sub claim {
+  my $this;
+  my $lc_inf;
+  my $lc_elem;
+  my $lc_stack;
+  
+  $this = shift;
+  
+  $lc_inf = $_[0]->{'handle'}->{'chobak_inf'};
+  $lc_elem = {};
+  $lc_elem->{'type'} = 'toolk';
+  $lc_elem->{'toolk'} = $lc_inf->{'toolk'};
+  $lc_elem->{'tagset'} = $lc_inf->{'tagset'};
+  
+  $lc_stack = $lc_inf->{'stack'};
+  @$lc_stack = (@$lc_stack,$lc_elem);
+  
+  $lc_inf->{'toolk'} = $this;
+  $lc_inf->{'tagset'} = $this->{'tagset'};
+  
 }
 
-sub nosuchtag_off {
-  my $lc_msg;
-  $lc_msg = "\nNO SUCH TAG: ";
-  $lc_msg .= $_[1]->{'element'};
-  $lc_msg .= ": (can not close)\n\n";
-  die $lc_msg;
-}
-
-sub parse_init {
+sub parse {
+  my $this;
   my $lc_a;
-  $lc_a = {};
-  
-  $lc_a->{'fnc'} = {}; # Dynamic method's hash
-  $lc_a->{'fnc'}->{'char'} = $_[0]->{'char'}->{'dflt'};
-  
-  return $lc_a;
-}
-
-sub parse_flush {
-  # Arg #0 = The parser object itself
+  $this = shift;
+  $lc_a = $this->parser($_[0]);
+  $lc_a->parse($_[1]);
+  $this->parse_quit($lc_a);
 }
 
 sub parse_quit {
   # Arg #0 = The parser object itself
+  my $this;
   my $lc_lefto;
-  $lc_lefto = int( ( $_[0]->{'chobak_inf'}->{'refs'} ) - 0.8 );
-  $_[0]->{'chobak_inf'}->{'refs'} = $lc_lefto;
-  if ( $lc_lefto < 0.5 ) { &parse_flush($_[0]); }
+  
+  $this = shift;
+  
+  $lc_lefto = int( ( $_[0]->{'chobak_inf'}->{'numrefs'}->{'count'} ) - 0.8 );
+  $_[0]->{'chobak_inf'}->{'numrefs'}->{'count'} = $lc_lefto;
+  
+  
+  
+  system("echo","LEFT ON IT: " . $lc_lefto);
+  if ( $lc_lefto < 0.5 )
+  {
+    my $lc2_mth;
+    $lc2_mth = $this->{'tagset'}->{'flush'};
+    
+    #&chobxml::toolk::basics::parse_flush($_[0]);
+    &$lc2_mth($_[0]);
+  }
 }
 
 sub char_dflt {
