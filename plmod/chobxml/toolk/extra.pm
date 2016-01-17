@@ -29,7 +29,7 @@ sub subparse {
 
 
 sub dumping {
-  print "\n\n" . $_[0] . ":\n" . Dumper($_[1]) . "\n\n";
+  print STDERR "\n" . $_[0] . ":\n" . Dumper($_[1]) . "\n\n";
 }
 
 

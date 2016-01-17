@@ -115,6 +115,14 @@ sub define_tag {
   $this->{'tagset'}->{'tag_m_off'}->{$_[0]} = $_[2];
 }
 
+sub default_hnd {
+  my $this;
+  $this = shift;
+  
+  $this->{'tagset'}->{'tag_g_on'} = $_[0];
+  $this->{'tagset'}->{'tag_g_off'} = $_[1];
+}
+
 sub define_init {
   my $this;
   $this = shift;
@@ -233,6 +241,11 @@ sub escap {
   $lc_strg =~ s/'/&apos;/g;
   
   return $lc_strg;
+}
+
+
+sub magical {
+  return 'chobak_inf';
 }
 
 

@@ -54,6 +54,7 @@ sub lm_end {
   my $lc_misca;
   my $lc_stklc;
   my $lc_stacklem;
+  my $lc_retval;
   
   ($lc_hand,$lc_lem) = @_;
   $lc_misca = {};
@@ -64,16 +65,13 @@ sub lm_end {
   while ( $lc_stacklem->{'type'} ne 'tag' )
   {
     # Here do whatever else ...
-    
-    if ( $lc_stacklem->{'type'} eq 'toolk' )
-    {
-      $lc_hand->{'chobak_inf'}->{'tagset'} = $lc_stacklem->{'tagset'};
-      $lc_hand->{'chobak_inf'}->{'toolk'} = $lc_stacklem->{'toolk'};
-    }
-    
+    &stack_restor_round($lc_hand,$lc_stacklem);
     
     $lc_stacklem = pop(@$lc_stklc);
   }
+  # Oh but don't remove it -- we'll still need it here.
+  @$lc_stklc = (@$lc_stklc, $lc_stacklem);
+  
   
   # Pick the Method to Use
   $lc_mth = $lc_hand->{'chobak_inf'}->{'tagset'}->{'tag_m_off'}->{$lc_lem};
@@ -90,7 +88,36 @@ sub lm_end {
   $lc_misca->{'toolk'} = $lc_hand->{'chobak_inf'}->{'toolk'};
   $lc_misca->{'tagset'} = $lc_hand->{'chobak_inf'}->{'tagset'};
   
-  return &$lc_mth($lc_hand->{'chobak_inf'}->{'data'},$lc_misca);
+  
+  $lc_retval = &$lc_mth($lc_hand->{'chobak_inf'}->{'data'},$lc_misca);
+  
+  # Again - retrieve stack element:
+  $lc_stacklem = pop(@$lc_stklc);
+  while ( $lc_stacklem->{'type'} ne 'tag' )
+  {
+    # Here do whatever else ...
+    &stack_restor_round($lc_hand,$lc_stacklem);
+    
+    $lc_stacklem = pop(@$lc_stklc);
+  }
+  # But this time, we can leave it removed when we're done.
+  
+  
+  return $lc_retval;
+}
+
+sub stack_restor_round {
+  my $lc_hand;
+  my $lc_stacklem;
+  
+  $lc_hand = $_[0];
+  $lc_stacklem = $_[1];
+  
+  if ( $lc_stacklem->{'type'} eq 'toolk' )
+  {
+    $lc_hand->{'chobak_inf'}->{'tagset'} = $lc_stacklem->{'tagset'};
+    $lc_hand->{'chobak_inf'}->{'toolk'} = $lc_stacklem->{'toolk'};
+  }
 }
 
 sub lm_char {
@@ -117,9 +144,17 @@ sub lm_char {
 
 sub nosuchtag_on {
   my $lc_msg;
+  my $lc_floc;
   $lc_msg = "\nNO SUCH TAG: ";
   $lc_msg .= $_[1]->{'element'};
-  $lc_msg .= ": (can not open)\n\n";
+  $lc_msg .= ": (can not open)\n";
+  
+  $lc_floc = $_[1]->{'handle'}->{&chobxml::toolk::magical()};
+  $lc_floc = $lc_floc->{'data'};
+  $lc_floc = $lc_floc->{'filoc'};
+  $lc_msg .= "In file: " . $lc_floc . "\n";
+  
+  $lc_msg .= "\n";
   die $lc_msg;
 }
 

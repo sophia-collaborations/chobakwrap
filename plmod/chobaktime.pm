@@ -1,6 +1,6 @@
 package chobaktime;
 use strict;
-use argola;
+use wraprg;
 
 sub nowo {
   my $lc_a;
@@ -19,7 +19,7 @@ sub raw_dayow {
   $lc_sorc = $_[0];
   if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
   $lc_cmd = "date -j -r";
-  &argola::wraprg_lst($lc_cmd,$lc_sorc,"+%u");
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%u");
   $lc_ret = `$lc_cmd`; chomp($lc_ret);
   
   return $lc_ret;

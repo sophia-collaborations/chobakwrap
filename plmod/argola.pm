@@ -82,6 +82,13 @@ sub remo {
   return @lc_tua;
 }
 
+
+# The following function is now known as "bsc"
+# in the "wraprg" module. The copy here will
+# eventually be replaced with a mere wrapper
+# for the "wraprg" version -- and the only
+# reason why it is not being purged altogether
+# is for the sake of backward compatibility.
 sub wrparg_bsc {
   my $lc_ret;
   my $lc_src;
@@ -98,6 +105,13 @@ sub wrparg_bsc {
   return $lc_ret;
 }
 
+
+# The following function is now known as "lst"
+# in the "wraprg" module. The copy here will
+# eventually be replaced with a mere wrapper
+# for the "wraprg" version -- and the only
+# reason why it is not being purged altogether
+# is for the sake of backward compatibility.
 sub wraprg_lst {
   my $lc_ret;
   my $lc_rem;

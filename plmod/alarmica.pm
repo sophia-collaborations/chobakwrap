@@ -2,6 +2,7 @@ package alarmica;
 use strict;
 use randomica;
 use argola;
+use wraprg;
 use chobak_hook;
 
 my $resdir;
@@ -30,7 +31,7 @@ $cbkdr = $hme . "/.chobakwrap/plmr-randomica";
 $dbkfl = $cbkdr . "/message.txt";
 
 
-$resdir = &argola::srcd;
+$resdir = &argola::srcd();
 $soundfl = $resdir . "/sounds/42095__fauxpress__bell-meditation.mp3";
 
 
@@ -264,9 +265,9 @@ sub wait {
 sub regmsg {
   my $lc_cm;
   $lc_cm = "echo";
-  &argola::wraprg_lst($lc_cm,(&nowo . ":" . $_[0]));
+  &wraprg::lst($lc_cm,(&nowo . ":" . $_[0]));
   $lc_cm .= " >> ";
-  &argola::wraprg_lst($lc_cm,$dbkfl);
+  &wraprg::lst($lc_cm,$dbkfl);
   system("mkdir","-p",$cbkdr);
   system($lc_cm);
 }
@@ -294,7 +295,7 @@ sub nex_msg {
   
   $lc_ret = "";
   $lc_cm = "cat";
-  &argola::wraprg_lst($lc_cm,$dbkfl);
+  &wraprg::lst($lc_cm,$dbkfl);
   $lc_cm .= " 2> /dev/null";
   $lc_rs = `$lc_cm`;
   &clear_msg;
@@ -313,9 +314,9 @@ sub nex_msg {
     if ( $lc_fround < 5 )
     {
       $lc_cm = "echo";
-      &argola::wraprg_lst($lc_cm,$lc_each);
+      &wraprg::lst($lc_cm,$lc_each);
       $lc_cm .= " >>";
-      &argola::wraprg_lst($lc_cm,$dbkfl);
+      &wraprg::lst($lc_cm,$dbkfl);
       system($lc_cm);
     }
     
@@ -339,7 +340,7 @@ sub findmsg {
   
   $lc_er = int((&nowo - ( 60 * 60 )) + 0.2);
   $lc_cm = "cat";
-  &argola::wraprg_lst($lc_cm,$dbkfl);
+  &wraprg::lst($lc_cm,$dbkfl);
   $lc_cm .= " 2> /dev/null";
   $lc_rs = `$lc_cm`;
   system("rm","-rf",$dbkfl);
@@ -354,9 +355,9 @@ sub findmsg {
       if ( $lc_when > $lc_er )
       {
         $lc_cm = "echo";
-        &argola::wraprg_lst($lc_cm,$lc_each);
+        &wraprg::lst($lc_cm,$lc_each);
         $lc_cm .= " >> ";
-        &argola::wraprg_lst($lc_cm,$dbkfl);
+        &wraprg::lst($lc_cm,$dbkfl);
         system("mkdir","-p",$cbkdr);
         system($lc_cm);
       }
@@ -370,7 +371,7 @@ sub shlc_caf {
   my $lc_ret;
   
   $lc_ret = "( ( caffeinate " . $caf_args . " -t";
-  &argola::wraprg_lst($lc_ret,$_[0]);
+  &wraprg::lst($lc_ret,$_[0]);
   $lc_ret .= " &bg ) 2> /dev/null )";
 }
 
@@ -385,7 +386,7 @@ sub do_caf {
 sub do_s_caf {
   my $lc_cmd;
   $lc_cmd = "( ( caffeinate -u -t";
-  &argola::wraprg_lst($lc_cmd,$_[0]);
+  &wraprg::lst($lc_cmd,$_[0]);
   $lc_cmd .= " &bg ) 2> /dev/null )";
   system($lc_cmd);
 }
@@ -437,7 +438,7 @@ sub res_age {
 sub shlc_vol {
   my $lc_ret;
   $lc_ret = "( ( afplay -v";
-  &argola::wraprg_lst($lc_ret,$_[0],$soundfl);
+  &wraprg::lst($lc_ret,$_[0],$soundfl);
   $lc_ret .= " &bg ) || true )";
 }
 
@@ -452,7 +453,7 @@ sub shlc_svol {
     if ( $lc_frst < 5 )
     {
       $lc_ret .= " && sleep ";
-      &argola::wraprg_lst($lc_ret,$wait_rate);
+      &wraprg::lst($lc_ret,$wait_rate);
       $lc_ret .= " && ";
     }
     $lc_frst = 0;
@@ -474,7 +475,7 @@ sub shlc_isvol {
     if ( $lc_frst < 5 )
     {
       $lc_ret .= " && sleep ";
-      &argola::wraprg_lst($lc_ret,$wait_rate);
+      &wraprg::lst($lc_ret,$wait_rate);
       $lc_ret .= " && ";
     }
     $lc_frst = 0;
@@ -531,9 +532,9 @@ sub outptex {
   foreach $lc_rg (@_)
   {
     $lc_cm = "echo";
-    &argola::wraprg_lst($lc_cm,$lc_rg);
+    &wraprg::lst($lc_cm,$lc_rg);
     $lc_cm .= " >>";
-    &argola::wraprg_lst($lc_cm,$destinay);
+    &wraprg::lst($lc_cm,$destinay);
     system($lc_cm);
   }
 }
