@@ -36,7 +36,9 @@ sub refnalret {
   
   if ( blessed($lc_argo) )
   {
-    $lc_msg = "Blessed Object:\n";
+    $lc_msg = "Blessed Object: ";
+    $lc_msg .= ref($lc_argo);
+    $lc_msg .= ":\n";
     @lc_rayall = keys %$lc_argo;
     foreach $lc_rayval (@lc_rayall)
     {
