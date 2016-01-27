@@ -4,6 +4,7 @@ use chobxml::toolk::rgos::cls_start;
 use chobxml::toolk::rgos::cls_end;
 use chobxml::toolk::rgos::cls_char;
 use chobxml::toolk::stack_restore;
+use chobxml::toolk::lc;
 
 #use Data::Dumper;
 
@@ -120,7 +121,7 @@ sub lm_char {
   $lc_misca = 
   $lc_misca = chobxml::toolk::rgos::cls_char->__raw_new;;
   
-  $lc_mth = $lc_hand->{'chobak_inf'}->{'data'}->{'fnc'}->{'char'};
+  $lc_mth = &chobxml::toolk::lc::chrfget($lc_hand);
   
   $lc_misca->{'handle'} = $lc_hand;
   $lc_misca->{'element'} = "";
