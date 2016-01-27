@@ -244,6 +244,7 @@ sub escap {
 }
 
 
+
 sub magical {
   return 'chobak_inf';
 }

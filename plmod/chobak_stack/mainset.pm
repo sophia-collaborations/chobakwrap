@@ -75,5 +75,22 @@ sub xsee {
   return ($this->see());
 }
 
+sub que {
+  # Used to add elements instead of on() if you are
+  # using this object as a queue rather than a stack.
+  # In short, it adds each item to the *bottom* of
+  # the stack rather than the *top*.
+  # WARNING: This is the one method implemented in
+  # this source-file that has not been properly
+  # tested yet. Though in theory, there's no reason
+  # why it shouldn't work. :-P
+  my $this;
+  my $lc_ryrf;  
+  $this = shift;
+  
+  $lc_ryrf = $this->{'lmn'};
+  @$lc_ryrf = (@$lc_ryrf,@_);
+}
+
 
 1;

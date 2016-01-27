@@ -1,5 +1,9 @@
 package chobxml::toolk::basics;
 use strict;
+use chobxml::toolk::rgos::cls_start;
+use chobxml::toolk::rgos::cls_end;
+use chobxml::toolk::rgos::cls_char;
+use chobxml::toolk::stack_restore;
 
 #use Data::Dumper;
 
@@ -14,7 +18,7 @@ sub lm_start {
   my $lc_stacklem; # The tag's stack element
   
   ($lc_hand,$lc_lem,%lc_prm) = @_;
-  $lc_misca = {};
+  $lc_misca = chobxml::toolk::rgos::cls_start->__raw_new;
   
   $lc_mth = $lc_hand->{'chobak_inf'}->{'tagset'}->{'tag_m_on'}->{$lc_lem};
   if ( ref($lc_mth) ne "CODE" )
@@ -57,7 +61,7 @@ sub lm_end {
   my $lc_retval;
   
   ($lc_hand,$lc_lem) = @_;
-  $lc_misca = {};
+  $lc_misca = chobxml::toolk::rgos::cls_end->__raw_new;
   
   # Retrieve the stack element:
   $lc_stklc = $lc_hand->{'chobak_inf'}->{'stack'};
@@ -65,7 +69,7 @@ sub lm_end {
   while ( $lc_stacklem->{'type'} ne 'tag' )
   {
     # Here do whatever else ...
-    &stack_restor_round($lc_hand,$lc_stacklem);
+    &chobxml::toolk::stack_restore::round($lc_hand,$lc_stacklem);
     
     $lc_stacklem = pop(@$lc_stklc);
   }
@@ -96,7 +100,7 @@ sub lm_end {
   while ( $lc_stacklem->{'type'} ne 'tag' )
   {
     # Here do whatever else ...
-    &stack_restor_round($lc_hand,$lc_stacklem);
+    &chobxml::toolk::stack_restore::round($lc_hand,$lc_stacklem);
     
     $lc_stacklem = pop(@$lc_stklc);
   }
@@ -106,20 +110,6 @@ sub lm_end {
   return $lc_retval;
 }
 
-sub stack_restor_round {
-  my $lc_hand;
-  my $lc_stacklem;
-  
-  $lc_hand = $_[0];
-  $lc_stacklem = $_[1];
-  
-  if ( $lc_stacklem->{'type'} eq 'toolk' )
-  {
-    $lc_hand->{'chobak_inf'}->{'tagset'} = $lc_stacklem->{'tagset'};
-    $lc_hand->{'chobak_inf'}->{'toolk'} = $lc_stacklem->{'toolk'};
-  }
-}
-
 sub lm_char {
   my $lc_hand;
   my $lc_misca;
@@ -127,7 +117,8 @@ sub lm_char {
   my $lc_mth;
   
   ($lc_hand,$lc_char) = @_;
-  $lc_misca = {};
+  $lc_misca = 
+  $lc_misca = chobxml::toolk::rgos::cls_char->__raw_new;;
   
   $lc_mth = $lc_hand->{'chobak_inf'}->{'data'}->{'fnc'}->{'char'};
   
