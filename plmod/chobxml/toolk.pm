@@ -3,6 +3,7 @@ use strict;
 use XML::Parser::Expat;
 use chobxml::toolk::basics;
 use chobxml::toolk::extra;
+use chobxml::toolk::lc;
 
 # This module is a higher-level library for XML parsing built
 # as a layer on-top of Expat - specifically, PERL's traditional
@@ -157,6 +158,7 @@ sub parser {
   $lc_hash->{'tagset'} = $this->{'tagset'};
   $lc_ini = $lc_hash->{'tagset'}->{'init'};
   $lc_hash->{'data'} = &$lc_ini($this->{'tagset'},$_[0]);
+  &chobxml::toolk::lc::setdatafnc($lc_hash);
   $lc_hash->{'numrefs'} = {};
   $lc_hash->{'numrefs'}->{'count'} = 1;
   $lc_hash->{'stack'} = [];

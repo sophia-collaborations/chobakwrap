@@ -1,6 +1,7 @@
 package chobxml::toolk::stack_restore;
 use strict;
 use chobxml::toolk;
+use chobxml::toolk::lc;
 use chobinfodig;
 
 
@@ -26,6 +27,7 @@ sub round {
   
   if ( $lc_stacklem->{'type'} eq 'charf' )
   {
+    &chobxml::toolk::lc::charfset($lc_hand,$lc_stacklem->{'charf'});
     return;
   }
 }

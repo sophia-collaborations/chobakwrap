@@ -16,6 +16,15 @@ sub chrfget {
   return ($lc_mage->{'data'}->{'fnc'}->{'char'});
 }
 
-
+sub setdatafnc {
+  if ( ref($_[0]->{'data'}->{'fnc'}) ne 'HASH' )
+  {
+    $_[0]->{'data'}->{'fnc'} = {};
+  }
+  if ( ref($_[0]->{'data'}->{'fnc'}->{'char'}) ne 'CODE' )
+  {
+    $_[0]->{'data'}->{'fnc'}->{'char'} = $_[0]->{'tagset'}->{'char'}->{'dflt'};
+  }
+}
 
 1;
