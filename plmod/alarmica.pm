@@ -6,6 +6,7 @@ use wraprg;
 use chobak_hook;
 
 my $resdir;
+my $plmresdir;
 my $soundfl;
 my $wait_rate = 3;
 my $hme;
@@ -32,7 +33,12 @@ $dbkfl = $cbkdr . "/message.txt";
 
 
 $resdir = &argola::srcd();
-$soundfl = $resdir . "/sounds/42095__fauxpress__bell-meditation.mp3";
+$plmresdir = $resdir;
+if ( ! ( -d ( $resdir . "/plmod" ) ) )
+{
+  $plmresdir = `chobakwrap -rloc`; chomp($plmresdir);
+}
+$soundfl = $plmresdir . "/sounds/42095__fauxpress__bell-meditation.mp3";
 
 
 sub ringtalert {
