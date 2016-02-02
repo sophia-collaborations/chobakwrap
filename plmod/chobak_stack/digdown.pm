@@ -62,7 +62,7 @@ use strict;
 #
 #   The handler functions return a 'true' or 'false' value.
 # However, unless it is a test function, the value of that
-# return value is of no consequence.
+# return value is of little consequence.
 #
 # HINT: PERL's 'strict' mode (unfortunately) does not allow
 # the use of the bare-words 'true' and 'false'. One can get
