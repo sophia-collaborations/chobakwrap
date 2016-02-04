@@ -19,6 +19,12 @@ sub flush {
   $this->{'flushf'} = $_[0];
 }
 
+sub initf {
+  my $this;
+  $this = shift;
+  $this->{'initf'} = $_[0];
+}
+
 sub misc {
   my $this;
   $this = shift;

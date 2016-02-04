@@ -1,4 +1,6 @@
 package chobxml02::rgpack::bsc_in_tags;
+use strict;
+use parent 'chobxml02::rgpack::m_subparse';
 
 sub mytag {
   # This function identifies what tag we are on.

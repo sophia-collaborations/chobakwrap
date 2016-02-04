@@ -4,6 +4,7 @@ use strict;
 use XML::Parser::Expat;
 use chobxml02::context::uhood;
 use chobxml02::rgpack::cls_flush;
+use chobxml02::rgpack::cls_init;
 use wraprg;
 use chobak_stack;
 use chobxml02::culprit;
@@ -52,10 +53,31 @@ sub parsefrom {
   $lc_gem->{'stack'} = &chobak_stack::new();
   $lc_gem->{'data'} = {};
   $lc_gem->{'args'} = $lc_arref;
+  $lc_gem->{'curfile'} = $_[0];
+  
+  
+  $lc_prs->{&chobxml02::magickal()} = $lc_gem;
+  
+  
+  
+  
+  # Before parsing - we do the initing.
+  
+  $lc_rgpk = chobxml02::rgpack::cls_init->__raw_new;
+  $lc_rgpk->{'gem'} = $lc_gem;
+  $lc_rgpk->{'expat'} = $lc_prs;
+  
+  $lc_blfunc = $lc_gem->{'context'}->{'initf'};
+  &$lc_blfunc($lc_rgpk);
+  
+  
+  
+  
+  
+  # Here cometh the magic moment when we parse!!!
   
   $lc_spculp = &chobxml02::culprit::swap($_[0]);
   
-  $lc_prs->{&chobxml02::magickal()} = $lc_gem;
   $lc_prs->parse($lc_cont);
   
   &chobxml02::culprit::swap($lc_spculp);

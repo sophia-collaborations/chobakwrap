@@ -11,6 +11,7 @@ sub new {
   $this->{'gnr-c'} = \&gener_off;
   $this->{'dfl-chr'} = \&do_nothing;
   $this->{'flushf'} = \&do_nothing; # Handler for after all is done
+  $this->{'initf'} = \&do_nothing; # Handler for before anything is done
   return $this;
 }
 
@@ -18,11 +19,11 @@ sub do_nothing {
 }
 
 sub gener_on {
-  die ( "\nCan not open unkown tag: " . $_[0]->tag() . ":\n\n" );
+  die ( "\nCan not open unkown tag: " . $_[0]->mytag() . ":\n\n" );
 }
 
 sub gener_off {
-  die ( "\nCan not close unkown tag: " . $_[0]->tag() . ":\n\n" );
+  die ( "\nCan not close unkown tag: " . $_[0]->mytag() . ":\n\n" );
 }
 
 

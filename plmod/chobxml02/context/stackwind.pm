@@ -20,4 +20,30 @@ sub for_check {
   return ( $lc_itm->{'typ'} eq 'tag' );
 }
 
+sub for_onno {
+  my $lc_itm;
+  my $lc_typ;
+  
+  # Identify the Item and it's Type
+  $lc_itm = $_[0]->see();
+  $lc_typ = $lc_itm->{'typ'};
+  
+  
+  if ( $lc_typ eq 'context' )
+  {
+    $_[1]->{'gem'}->{'context'} = $lc_itm->{'cntx'};
+    return ( 1 > 2 );
+  }
+  
+  
+  
+  
+  # If nothing is found matching that type:
+  die ( "\nFATAL ERROR: Unknown Stack-Element Type: " . $lc_typ . ":\n"
+      . "  To rectify, start by looking at the following resource:\n"
+      . "          Module: chobxml02::context::stackwind :\n"
+      . "        Function: for_onno :\n"
+  . "\n");
+}
+
 1;
