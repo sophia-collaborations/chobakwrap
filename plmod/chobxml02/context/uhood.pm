@@ -21,6 +21,7 @@ sub hand_start {
   my $lc_tag;
   my %lc_trib;
   my $lc_blfunc;
+  my $lc_onclo_func;
   my $lc_gem;
   
   ($lc_parser,$lc_tag,%lc_trib) = @_;
@@ -41,12 +42,21 @@ sub hand_start {
     $lc_blfunc = $lc_gem->{'context'}->{'gnr-o'};
   }
   
+  # Next, we identify the function that we will use at
+  # tag-closing time.
+  $lc_onclo_func = $lc_gem->{'context'}->{'tag-c'}->{$lc_tag};
+  if ( ref($lc_onclo_func) ne 'CODE' )
+  {
+    $lc_onclo_func = $lc_gem->{'context'}->{'gnr-c'};
+  }
+  
   # We then add a 'tag' element to the stack.
   $lc_gem->{'stack'}->on({
     'typ' => 'tag',
     'tag' => $lc_tag,
     'dat' => $lc_rgpk->{'tagdata'},
     'pram' => \%lc_trib,
+    'close' => $lc_onclo_func,
   });
   
   # Finally, we call the function.
@@ -83,11 +93,11 @@ sub hand_end {
   
   # Next, we identify the function that we are going
   # to use.
-  $lc_blfunc = $lc_gem->{'context'}->{'tag-c'}->{$lc_tag};
-  if ( ref($lc_blfunc) ne 'CODE' )
-  {
-    $lc_blfunc = $lc_gem->{'context'}->{'gnr-c'};
-  }
+  # Oh --- and we're getting it from the top stack
+  # element - just in case it would otherwise be
+  # affected by a context-modification since the
+  # time of the open-tag.
+  $lc_blfunc = $lc_stklem->{'close'};
   
   # Then, we call the function.
   &$lc_blfunc($lc_rgpk);

@@ -54,6 +54,7 @@ sub parsefrom {
   $lc_gem->{'data'} = {};
   $lc_gem->{'args'} = $lc_arref;
   $lc_gem->{'curfile'} = $_[0];
+  $lc_gem->{'penpt'} = 'x'; # Becomes a reference when active.
   
   
   $lc_prs->{&chobxml02::magickal()} = $lc_gem;

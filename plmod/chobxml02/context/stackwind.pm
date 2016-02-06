@@ -35,6 +35,20 @@ sub for_onno {
     return ( 1 > 2 );
   }
   
+  if ( $lc_typ eq 'charf' )
+  {
+    $_[1]->{'gem'}->{'charf'} = $lc_itm->{'charf'};
+    return ( 1 > 2 );
+  }
+  
+  if ( $lc_typ eq 'penpt' )
+  {
+    $_[1]->{'gem'}->{'penpt'} = $lc_itm->{'penpt'};
+    return ( 1 > 2 );
+  }
+  
+  
+  
   
   
   

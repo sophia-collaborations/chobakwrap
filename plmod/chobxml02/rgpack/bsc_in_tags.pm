@@ -18,4 +18,15 @@ sub pram {
   return $this->{'pram'}->{$_[0]};
 }
 
+sub tgdata {
+  return ($_[0]->{'tagdata'});
+}
+
+sub untag {
+  my $this;
+  $this = shift;
+  
+  $this->{'gem'}->{'context'}->untag($_[0]);
+}
+
 1;
