@@ -63,6 +63,40 @@ sub see {
   return $lc_ret;
 }
 
+sub dpsee {
+  # This function returns the top value on the stack to
+  # the calling program -- but it does so without removing
+  # it from the stack.
+  my $this;
+  my $lc_ryrf;
+  my $lc_sizo;
+  my $lc_ret;
+  $this = shift;
+  
+  $lc_ryrf = $this->{'lmn'};
+  $lc_sizo = @$lc_ryrf;
+  if ( $lc_sizo < ( $_[0] + 0.5 ) ) { return undef; }
+  
+  $lc_ret = $lc_ryrf->[$_[0]];
+  return $lc_ret;
+}
+
+sub clone { # CAUTION: Not yet adequately tested:
+  my $this;
+  my $lc_neo;
+  my $lc_old_ryref;
+  my $lc_new_ryref;
+  $this = shift;
+  
+  $lc_neo = &chobak_stack::new();
+  $lc_old_ryref = $this->{'lmn'};
+  $lc_new_ryref = $lc_neo->{'lmn'};
+  
+  @$lc_new_ryref = @$lc_old_ryref;
+  
+  return $lc_neo;
+}
+
 sub xsee {
   # This function takes the top element off of the stack
   # and returns to the calling program the value of the
