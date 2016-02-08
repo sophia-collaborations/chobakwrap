@@ -39,4 +39,16 @@ sub wresc { # NOT TESTED YET --- SO BE CAREFUL:
   }
 }
 
+sub argum {
+  my $this;
+  my $lc_argrf;
+  my $lc_argtot;
+  $this = shift;
+  
+  $lc_argrf = $this->{'gem'}->{'args'};
+  $lc_argtot = @$lc_argrf;
+  if ( $lc_argtot < ( $_[0] + 0.5 ) ) { return undef; }
+  return ($lc_argrf->[$_[0]]);
+}
+
 1;
