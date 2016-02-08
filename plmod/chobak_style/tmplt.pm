@@ -15,7 +15,7 @@ sub new {
   &wraprg::lst($lc_cmd,$_[0]);
   $lc_cont = `$lc_cmd`;
   $lc_rcont = $lc_cont;
-  $this->{'alg'} = &procpart($lc_rcont,$_[0]);
+  $this->{'alg'} = &procpart($lc_rcont,$_[0],'endtemplate');
   return $this;
 }
 
@@ -56,14 +56,14 @@ sub procpart {
     if ( $lc_parts[0] eq 'ifyes' )
     {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::util::if_yes,[$lc_parts[1]
-        ,&procpart($lc_rcont,$lc_filename)]])
+        ,&procpart($lc_rcont,$lc_filename,'yesfi')]])
       ;
       $lc_known = 10;
     }
     if ( $lc_parts[0] eq 'ifno' )
     {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::util::if_no,[$lc_parts[1]
-        ,&procpart($lc_rcont,$lc_filename)]])
+        ,&procpart($lc_rcont,$lc_filename,'nofi')]])
       ;
       $lc_known = 10;
     }
@@ -71,7 +71,7 @@ sub procpart {
     {
       $lc_known = 10;
     }
-    if ( $lc_parts[0] eq 'fi' )
+    if ( $lc_parts[0] eq $_[2] )
     {
       $lc_returno = [@lc_algo];
       $_[0] = $lc_rcont;

@@ -35,6 +35,12 @@ sub run {
     $lc_argum = $lc_tmlist->[$lc_pointr]->[1];
     
     &$lc_func($lc_argum,$this->{'var'},$lc_rfret);
+    # Remember --- the first argument (#0) is the
+    # argument-element of the two-element array
+    # (the argument generally being itself an array).
+    # The second argument (#1) is the variable deck,
+    # and the third argument (#2) is a reference to
+    # the scalar where goeth the output.
     
     $lc_pointr = int($lc_pointr + 1.2);
   }

@@ -38,6 +38,33 @@ sub var_lit {
   $$lc_rfret .= $lc_neos;
 }
 
+sub if_yes {
+  my $lc_varios;
+  $lc_varios = $_[0]->[0];
+  if ( ! ( defined($_[1]->{$lc_varios}) ) ) { return; }
+  &go_through($_[0]->[1],$_[1],$_[2]);
+}
+
+sub if_no {
+  my $lc_varios;
+  $lc_varios = $_[0]->[0];
+  if ( defined($_[1]->{$lc_varios}) ) { return; }
+  &go_through($_[0]->[1],$_[1],$_[2]);
+}
+
+sub go_through {
+  my $lc_script;
+  my $lc_step;
+  my $lc_func;
+  my $lc_argo;
+  $lc_script = $_[0];
+  foreach $lc_step (@$lc_script)
+  {
+    ($lc_func,$lc_argo) = @$lc_step;
+    &$lc_func($lc_argo,$_[1],$_[2]);
+  }
+}
+
 
 sub escap {
   # A copy of function of same name in: chobxml02::fnc::writing
