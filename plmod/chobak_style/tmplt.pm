@@ -19,6 +19,16 @@ sub new {
   return $this;
 }
 
+sub new_blank {
+  my $this;
+  my $lc_rcont;
+  
+  $this = chobak_style::tmplt::cls->__raw_new;
+  $lc_rcont = '';
+  $this->{'alg'} = &procpart($lc_rcont,$_[0],'endtemplate');
+  return $this;
+}
+
 sub procpart {
   my $lc_rcont;
   my @lc_algo;

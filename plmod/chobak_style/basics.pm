@@ -9,13 +9,27 @@ sub load {
   my $lc_found;
   my $lc_dth;
   my $lc_pthvar;
+  my $lc_onabsent;
   $this = shift;
   
   $lc_pthvar = $this->{'path'};
-  
+  $lc_onabsent = $this->{'pref'}->{'on-absent-template'};
   
   if ( ! ( &chobak_fnc::pathfind($_[0],$lc_pthvar,$lc_found) ) )
   {
+    if ( $lc_onabsent eq 'skip' ) { return; }
+    if ( $lc_onabsent eq 'blank' )
+    {
+      $this->{'tmpl'}->{$_[1]} = &chobak_style::tmplt::new_blank();
+      return;
+    }
+    if ( $lc_onabsent eq 'warn' )
+    {
+      print STDERR "WARNING: Missing Template: " . $_[0] . ":\n";
+      $this->{'tmpl'}->{$_[1]} = &chobak_style::tmplt::new_blank();
+      return;
+    }
+    
     my $lc2_ech;
     $lc_dth = "\nFATAL ERROR: '" . $_[0] . "' not found on path:\n";
     foreach $lc2_ech (@$lc_pthvar)
