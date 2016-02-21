@@ -32,6 +32,7 @@ sub setopt {
   @optlist = ( @optlist, $_[0] );
   $opthash{$_[0]} = {
     'func' => $_[1],
+    'typ' => 'a',
     'pram' => undef,
   };
 }
@@ -40,6 +41,7 @@ sub setoptp {
   @optlist = ( @optlist, $_[0] );
   $opthash{$_[0]} = {
     'func' => $_[1],
+    'typ' => 'b',
     'pram' => $_[2],
   };
 }
@@ -50,6 +52,8 @@ sub runopts {
   my $lc_found;
   my $lc_mth;
   my $lc_pram;
+  my $lc_typ;
+  my $lc_yot;
   while ( &yet )
   {
     $lc_crg = &getrg();
@@ -62,6 +66,7 @@ sub runopts {
         $lc3_rc = $opthash{$lc_ech};
         $lc_mth = $lc3_rc->{'func'};
         $lc_pram = $lc3_rc->{'pram'};
+        $lc_typ = $lc3_rc->{'typ'};
         $lc_found = 10;
       }
     }
@@ -69,7 +74,20 @@ sub runopts {
     {
       die "\n" . $_[0] . ": FATAL ERROR:\nUnknown Option: " . $lc_crg . ":\n\n";
     }
-    &$lc_mth($lc_pram);
+    
+    $lc_yot = ( 2 > 1 );
+    if ( $lc_yot )
+    {
+      if ( $lc_typ eq 'a' )
+      {
+        &$lc_mth();
+        $lc_yot = ( 1 > 2 );
+      }
+    }
+    if ( $lc_yot )
+    {
+      &$lc_mth($lc_pram);
+    }
   }
 }
 
