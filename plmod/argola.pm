@@ -1,4 +1,5 @@
 package argola;
+use chobak_help;
 use strict;
 
 my @argbuft;
@@ -29,7 +30,18 @@ sub remrg {
 
 sub setopt {
   @optlist = ( @optlist, $_[0] );
-  $opthash{$_[0]} = $_[1];
+  $opthash{$_[0]} = {
+    'func' => $_[1],
+    'pram' => undef,
+  };
+}
+
+sub setoptp {
+  @optlist = ( @optlist, $_[0] );
+  $opthash{$_[0]} = {
+    'func' => $_[1],
+    'pram' => $_[2],
+  };
 }
 
 sub runopts {
@@ -37,15 +49,19 @@ sub runopts {
   my $lc_ech;
   my $lc_found;
   my $lc_mth;
+  my $lc_pram;
   while ( &yet )
   {
-    $lc_crg = &getrg;
+    $lc_crg = &getrg();
     $lc_found = 0;
     foreach $lc_ech (@optlist)
     {
       if ( $lc_ech eq $lc_crg )
       {
-        $lc_mth = $opthash{$lc_ech};
+        my $lc3_rc;
+        $lc3_rc = $opthash{$lc_ech};
+        $lc_mth = $lc3_rc->{'func'};
+        $lc_pram = $lc3_rc->{'pram'};
         $lc_found = 10;
       }
     }
@@ -53,7 +69,7 @@ sub runopts {
     {
       die "\n" . $_[0] . ": FATAL ERROR:\nUnknown Option: " . $lc_crg . ":\n\n";
     }
-    &$lc_mth;
+    &$lc_mth($lc_pram);
   }
 }
 
@@ -80,6 +96,15 @@ sub remo {
   @lc_tua = @argbuft;
   @argbuft = ();
   return @lc_tua;
+}
+
+sub help_opt {
+  my $lc_hlpf;
+  
+  $lc_hlpf = $resorco . '/' . $_[1];
+  &setoptp($_[0],\&chobak_help::ofnroff,{
+    'nrfile' => $lc_hlpf,
+  });
 }
 
 
