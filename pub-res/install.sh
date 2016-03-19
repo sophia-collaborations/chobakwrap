@@ -21,6 +21,14 @@ fi
 
 rm -rf tmp
 mkdir -p tmp
+
+rm -rf tmp/checkret.txt
+perl "${pubresdir}/ins-pl/checkbefore.pl"
+if [ -f "tmp/checkret.txt" ]; then
+  exit "$(cat tmp/checkret.txt)"
+fi
+
+
 (
   echo "#! $(which perl)"
   echo "use strict;"
