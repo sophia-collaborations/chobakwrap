@@ -2,6 +2,7 @@ package chobak_style::tmplt;
 use strict;
 use chobak_style::tmplt::cls;
 use chobak_style::tmplt::util;
+use chobak_style::tmplt::time;
 use wraprg;
 
 sub new {
@@ -63,6 +64,11 @@ sub procpart {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::util::var_esc,[$lc_parts[1]]]);
       $lc_known = 10;
     }
+    if ( $lc_parts[0] eq 'cap' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::util::var_cap,[$lc_parts[1]]]);
+      $lc_known = 10;
+    }
     if ( $lc_parts[0] eq 'ifyes' )
     {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::util::if_yes,[$lc_parts[1]
@@ -77,6 +83,25 @@ sub procpart {
       ;
       $lc_known = 10;
     }
+    
+    
+    if ( $lc_parts[0] eq 'month-l' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_month_l,[$lc_parts[1]]]);
+      $lc_known = 10;
+    }
+    if ( $lc_parts[0] eq 'day-l' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_day_l,[$lc_parts[1]]]);
+      $lc_known = 10;
+    }
+    if ( $lc_parts[0] eq 'int' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_int,[$lc_parts[1]]]);
+      $lc_known = 10;
+    }
+    
+    
     if ( $lc_parts[0] eq '' )
     {
       $lc_known = 10;

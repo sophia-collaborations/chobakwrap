@@ -38,6 +38,20 @@ sub var_lit {
   $$lc_rfret .= $lc_neos;
 }
 
+
+sub var_cap {
+  my $lc_neos;
+  my $lc_varios;
+  my $lc_rfret;
+  
+  $lc_rfret = $_[2];
+  $lc_varios = $_[0]->[0];
+  
+  
+  $lc_neos = $_[1]->{$lc_varios};
+  $$lc_rfret .= uc $lc_neos;
+}
+
 sub if_yes {
   my $lc_varios;
   $lc_varios = $_[0]->[0];

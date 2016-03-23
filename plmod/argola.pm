@@ -10,8 +10,8 @@ my %opthash = {};
 my @optlist = ();
 
 @argbuft = @ARGV;
-$versono = &getrg;
-$resorco = &getrg;
+$versono = &getrg();
+$resorco = &getrg();
 @argbufp = @argbuft;
 
 
