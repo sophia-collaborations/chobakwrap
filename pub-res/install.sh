@@ -19,6 +19,16 @@ else
 fi
 
 
+if [ -f "Makefile" ]; then
+  make all || exit
+  # IMPORTANT: The file 'all' should *obviously* never be created.
+  # It is merely an anchor for all else that must be built.
+  # All targets that actually *are* subjected to writing and/or
+  # alteration must be within the 'build' directory, so that they
+  # will not be tracked by Git.
+fi
+
+
 rm -rf tmp
 mkdir -p tmp
 
