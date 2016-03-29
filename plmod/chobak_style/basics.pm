@@ -10,7 +10,17 @@ sub load {
   my $lc_dth;
   my $lc_pthvar;
   my $lc_onabsent;
+  my $lc_explain;
   $this = shift;
+  
+  $lc_explain = "  purpose: (no explanation provided):\n";
+  if ( defined($_[2]) )
+  {
+    if ( $_[2] ne "" )
+    {
+      $lc_explain = "\n" . $_[2] . "\n\n";
+    }
+  }
   
   $lc_pthvar = $this->{'path'};
   $lc_onabsent = $this->{'pref'}->{'on-absent-template'};
@@ -26,12 +36,16 @@ sub load {
     if ( $lc_onabsent eq 'warn' )
     {
       print STDERR "WARNING: Missing Template: " . $_[0] . ":\n";
+      print STDERR $lc_explain;
       $this->{'tmpl'}->{$_[1]} = &chobak_style::tmplt::new_blank();
       return;
     }
     
+    # The official default of $lc_onabsent is 'die'
+    
     my $lc2_ech;
     $lc_dth = "\nFATAL ERROR: '" . $_[0] . "' not found on path:\n";
+    $lc_dth .= $lc_explain;
     foreach $lc2_ech (@$lc_pthvar)
     {
       $lc_dth .= '   ' . $lc2_ech . "\n";
