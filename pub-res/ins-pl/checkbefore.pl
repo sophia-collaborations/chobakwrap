@@ -62,7 +62,7 @@ sub gitigsee_k {
   print STDERR 'FATAL: Line Missing from .gitignore: ' . $lc_arg . ":\n";
 }
 
-&gitigseek('/tmp','/ins-opt-code');
+&gitigseek('/tmp','/ins-opt-code','/build');
 &errot;
 
 
