@@ -20,12 +20,9 @@ fi
 
 
 if [ -f "Makefile" ]; then
-  make all || exit
-  # IMPORTANT: The file 'all' should *obviously* never be created.
-  # It is merely an anchor for all else that must be built.
-  # All targets that actually *are* subjected to writing and/or
-  # alteration must be within the 'build' directory, so that they
-  # will not be tracked by Git.
+  make build/all || exit
+  # Central target is 'build/all' rather than 'all' so that (if need-be)
+  # the file can actually be -created- without being tracked.
 fi
 
 
