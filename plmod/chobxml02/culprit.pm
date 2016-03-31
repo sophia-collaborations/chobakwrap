@@ -17,5 +17,9 @@ sub swap {
   return $lc_a;
 }
 
+sub identify {
+  return $curfile;
+}
+
 
 1;
