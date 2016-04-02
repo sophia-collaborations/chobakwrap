@@ -95,6 +95,16 @@ sub procpart {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_day_l,[$lc_parts[1]]]);
       $lc_known = 10;
     }
+    if ( $lc_parts[0] eq 'month-s' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_month_s,[$lc_parts[1]]]);
+      $lc_known = 10;
+    }
+    if ( $lc_parts[0] eq 'day-s' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_day_s,[$lc_parts[1]]]);
+      $lc_known = 10;
+    }
     if ( $lc_parts[0] eq 'int' )
     {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::time::var_int,[$lc_parts[1]]]);

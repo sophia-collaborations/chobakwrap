@@ -14,6 +14,19 @@ my @ary_day_l = (
   'Saturday'
 );
 
+my @ary_month_s = (
+  'Jan','Feb','Mar',
+  'Apr','May','Jun',
+  'Jul','Aug','Sep',
+  'Oct','Nov','Dec'
+);
+
+my @ary_day_s = (
+  'Sun', 'Mon', 'Tue',
+  'Wed', 'Thu', 'Fri',
+  'Sat'
+);
+
 sub var_month_l {
   my $lc_neos;
   my $lc_varios;
@@ -44,6 +57,40 @@ sub var_day_l {
   
   # Translate it to day:
   $lc_neos = $ary_day_l[int($lc_neos - 0.8)];
+  
+  $$lc_rfret .= $lc_neos;
+}
+
+sub var_month_s {
+  my $lc_neos;
+  my $lc_varios;
+  my $lc_rfret;
+  
+  $lc_rfret = $_[2];
+  $lc_varios = $_[0]->[0];
+  
+  
+  $lc_neos = $_[1]->{$lc_varios};
+  
+  # Translate it to month:
+  $lc_neos = $ary_month_s[int($lc_neos - 0.8)];
+  
+  $$lc_rfret .= $lc_neos;
+}
+
+sub var_day_s {
+  my $lc_neos;
+  my $lc_varios;
+  my $lc_rfret;
+  
+  $lc_rfret = $_[2];
+  $lc_varios = $_[0]->[0];
+  
+  
+  $lc_neos = $_[1]->{$lc_varios};
+  
+  # Translate it to day:
+  $lc_neos = $ary_day_s[int($lc_neos - 0.8)];
   
   $$lc_rfret .= $lc_neos;
 }
