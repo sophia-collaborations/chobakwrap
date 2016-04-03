@@ -39,20 +39,23 @@ else
 fi
 
 
-if [ -f "Makefile" ]; then
-  make build/all || exit
-  # Central target is 'build/all' rather than 'all' so that (if need-be)
-  # the file can actually be -created- without being tracked.
-fi
-
-
 rm -rf tmp
 mkdir -p tmp
 
 rm -rf tmp/checkret.txt
 perl "${pubresdir}/ins-pl/checkbefore.pl"
 if [ -f "tmp/checkret.txt" ]; then
+  (
+    echo "Failed to install from: ${curdirec}:"
+  ) 1>&2
   exit "$(cat tmp/checkret.txt)"
+fi
+
+
+if [ -f "Makefile" ]; then
+  make build/all || exit
+  # Central target is 'build/all' rather than 'all' so that (if need-be)
+  # the file can actually be -created- without being tracked.
 fi
 
 
