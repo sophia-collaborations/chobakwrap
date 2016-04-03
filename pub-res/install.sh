@@ -5,6 +5,26 @@ pubresdir="$(cd "$(dirname "${0}")" && pwd)"
 cd "${1}" || exit
 curdirec="$(pwd)"
 
+
+# Identify the project type
+projtype='cmd'
+if [ -f "proj-info/project-type.txt" ]; then
+  projtype="$(cat proj-info/project-type.txt)"
+else
+  if [ -f "proj-info/proj-name.txt" ]; then
+    echo cmd > proj-info/project-type.txt
+  else
+    (
+      echo
+      echo "PLEASE CREATE: ${curdirec}/proj-info/project-type.txt"
+      echo
+    ) 1>&2
+    exit 8
+  fi
+fi
+
+
+
 if [ -f "proj-info/proj-name.txt" ]; then
   fildesnom="$(cat "proj-info/proj-name.txt")"
   echo "Project Identified: ${fildesnom}:"
@@ -14,7 +34,7 @@ else
     echo PROJECT NAME NOT FOUND
     echo "$(pwd)/proj-info/proj-name.txt"
     echo
-  ) > /dev/stderr
+  ) 1>&2
   exit 3
 fi
 
@@ -46,7 +66,28 @@ fi
 chmod 755 tmp/${fildesnom}
 perl -c tmp/${fildesnom} || exit 2
 
-destina="${HOME}/bin"
+
+# Find the default location
+destina='x'
+onetype='cmd'
+if [ $projtype = $onetype ]; then
+  destina="${HOME}/bin"
+fi
+onetype='scrip-tll'
+if [ $projtype = $onetype ]; then
+  destina="${HOME}/scriptools"
+fi
+
+onetype='x'
+if [ $destina = $onetype ]; then
+  (
+    echo
+    echo "Could not find project-type: ${projtype}:"
+    echo
+  ) 1>&2
+fi
+
+
 # Allow overriding of default:
 if [ -f "ins-opt-code/dir-of-install.txt" ]; then
   destina="$(cat ins-opt-code/dir-of-install.txt)"
