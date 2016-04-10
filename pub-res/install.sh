@@ -16,7 +16,11 @@ else
   else
     (
       echo
-      echo "PLEASE CREATE: ${curdirec}/proj-info/project-type.txt"
+      echo "PLEASE CREATE:"
+      echo "  ${curdirec}/proj-info/project-type.txt"
+      echo
+      echo "Possible values:"
+      echo "  cmd scrip-tll"
       echo
     ) 1>&2
     exit 8

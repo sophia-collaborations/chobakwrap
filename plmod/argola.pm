@@ -80,14 +80,23 @@ sub runopts {
     {
       if ( $lc_typ eq 'a' )
       {
-        &$lc_mth();
+        &$lc_mth(undef,$lc_crg);
         $lc_yot = ( 1 > 2 );
       }
     }
     if ( $lc_yot )
     {
-      &$lc_mth($lc_pram);
+      &$lc_mth($lc_pram,$lc_crg);
     }
+  }
+}
+
+sub thatbeall {
+  if ( &yet() )
+  {
+    die "\nFATAL ERROR:\n" .
+      "  Too many arguments after '" . $_[0] . "' option:\n";
+    "\n";
   }
 }
 
