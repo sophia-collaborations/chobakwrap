@@ -74,15 +74,25 @@ chmod 755 tmp/${fildesnom}
 perl -c tmp/${fildesnom} || exit 2
 
 
-# Find the default location
+# Find the path-install location
 destina='x'
 onetype='cmd'
 if [ $projtype = $onetype ]; then
   destina="${HOME}/bin"
+  # Allow overriding of default:
+  #if [ -f "ins-opt-code/dir-of-install.txt" ]; then
+  foundo="$(perl "${pubresdir}/find-above.pl" ins-opt-code/dir-of-install.txt x install.sh)"
+  if [ "$foundo" != "x" ]; then
+    destina="$(cat "${foundo}")"
+  fi
 fi
 onetype='scrip-tll'
 if [ $projtype = $onetype ]; then
   destina="${HOME}/scriptools"
+  foundo="$(perl "${pubresdir}/find-above.pl" ins-opt-code/dir-of-install-scrip-tll.txt x install.sh)"
+  if [ "$foundo" != "x" ]; then
+    destina="$(cat "${foundo}")"
+  fi
 fi
 
 onetype='x'
@@ -95,10 +105,6 @@ if [ $destina = $onetype ]; then
 fi
 
 
-# Allow overriding of default:
-if [ -f "ins-opt-code/dir-of-install.txt" ]; then
-  destina="$(cat ins-opt-code/dir-of-install.txt)"
-fi
 
 cp "tmp/${fildesnom}" "${destina}/."
 chmod 755 "${destina}/${fildesnom}"
