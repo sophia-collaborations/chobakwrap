@@ -443,9 +443,16 @@ sub res_age {
 
 sub shlc_vol {
   my $lc_ret;
-  $lc_ret = "( ( afplay -v";
-  &wraprg::lst($lc_ret,$_[0],$soundfl);
+  
+  #$lc_ret = "( ( afplay -v";
+  #&wraprg::lst($lc_ret,$_[0],$soundfl);
+  #$lc_ret .= " &bg ) || true )";
+  
+  $lc_ret = "( ( chobakwrap-sound -vol";
+  &wraprg::lst($lc_ret,$_[0],'-snd',$soundfl);
   $lc_ret .= " &bg ) || true )";
+  
+  return $lc_ret;
 }
 
 sub shlc_svol {
