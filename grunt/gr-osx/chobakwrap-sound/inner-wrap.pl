@@ -15,6 +15,9 @@ sub opto__vol__y {
   $volumas = &argola::getrg();
 } &argola::setopt('-vol',\&opto__vol__y);
 
+# Centralizing help-file in main 'chobakwrap' command.
+&argola::osorc_opt('--help','chobakwrap','--help-sound');
+
 &argola::runopts();
 
 

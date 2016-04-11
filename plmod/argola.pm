@@ -95,7 +95,7 @@ sub thatbeall {
   if ( &yet() )
   {
     die "\nFATAL ERROR:\n" .
-      "  Too many arguments after '" . $_[0] . "' option:\n";
+      "  Too many arguments after '" . $_[0] . "' option:\n\n";
     "\n";
   }
 }
@@ -131,6 +131,20 @@ sub help_opt {
   $lc_hlpf = $resorco . '/' . $_[1];
   &setoptp($_[0],\&chobak_help::ofnroff,{
     'nrfile' => $lc_hlpf,
+  });
+}
+
+sub osorc_opt {
+  my @lc_ray;
+  my $lc_lem;
+  
+  @lc_ray = @_;
+  $lc_lem = @lc_ray;
+  if ( $lc_lem < 1.5 ) { die "\nInsufficient arguments to argola::osorc_opt:\n\n"; }
+  $lc_lem = shift @lc_ray;
+  
+  &setoptp($_[0],\&chobak_help::outsrc,{
+    'cmd' => [@lc_ray],
   });
 }
 
