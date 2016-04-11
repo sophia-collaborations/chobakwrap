@@ -3,14 +3,16 @@ use strict;
 # purpose of OS abstraction between different Unix-type operating
 # systems.
 
-my $fruname;
+#my $fruname;
 my $osid;
 
-$osid = 'x';
-$fruname = `uname`; chomp($fruname);
-if ( $fruname eq 'Darwin' ) { $osid = 'osx'; }
+#$osid = 'x';
+#$fruname = `uname`; chomp($fruname);
+#if ( $fruname eq 'Darwin' ) { $osid = 'osx'; }
 
-if ( $osid eq 'x' ) { die "\nWe could not identify the OS type:\n"; }
+$osid = `perl grunt-detect.pl`; chomp($osid);
+
+if ( $osid eq 'x' ) { die "\nWe could not identify the OS type:\n\n"; }
 
 exec("sh",("grunt-for-" . $osid . ".sh"));
 
