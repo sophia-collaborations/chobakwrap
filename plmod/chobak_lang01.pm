@@ -1,4 +1,4 @@
-package chobak_style;
+package chobak_lang01;
 use strict;
 use chobak_style::cls;
 use chobak_fnc;
@@ -9,7 +9,7 @@ sub new {
   my $lc_pref;
   my $lc_flvar;
   
-  $lc_flvar = 'style-prefs.txt';
+  $lc_flvar = 'lang01-prefs.txt';
   
   $lc_prmfile = $_[0] . '/' . $lc_flvar;
   $lc_pref = {
@@ -17,26 +17,11 @@ sub new {
     'on-absent-template' => 'die',
     'on-unloaded-template' => 'die',
   };
-  
-  if ( 1 > 2 ) { # START FALSEHOOD
-  &besure_present({
-    'deck' => $lc_pref,
-    'var' => 'on-absent-template',
-    'src' => $lc_flvar,
-    'maybe' =>
-    [
-      ['skip'],
-      ['blank'],
-      ['die'],
-    ],
-  });
-  } # END FALSEHOOD
-  
   &chobak_fnc::hashfile($lc_pref,$lc_prmfile);
-  if ( $lc_pref->{'chobak-style'} ne 'yes' )
+  if ( $lc_pref->{'chobak-lang'} ne 'yes' )
   {
-    die "\nFATAL ERROR: Not a Valid Style:\n"
-      . "File '" . $lc_flvar . "' needs 'chobak-style' variable with value of 'yes':\n"
+    die "\nFATAL ERROR: Not a Valid Language Resource:\n"
+      . "File '" . $lc_flvar . "' needs 'chobak-lang' variable with value of 'yes':\n"
       . "directory: " . $_[0] . ":\n\n"
     ;
   }

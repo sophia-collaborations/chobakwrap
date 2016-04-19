@@ -1,0 +1,93 @@
+.TH CHOBAKWRAP\-CAFF 1
+.SH NAME
+chobakwrap\-caff - Abstraction \(qtcommand for system caffeination
+.SH SYNOPSIS
+.B chobakwrap\-caff
+[\fIoptions\fR]
+.SH DESCRIPTION
+Many times a program must fulfill it's entire run
+without the computer system falling asleep - even if
+there is no input from the user during that time
+period.
+Unfortunately, there is no uniform way
+from system to system
+that the program can let the computer system know
+that falling asleep during that time period
+isn't acceptable.
+
+Enter \fBchobakwrap\-caff\fR, the abstraction command
+that has is designed to do this as well as available tools allow
+while giving the calling program a uniform interface
+regardless of system.
+This bridging between the different system is done
+by the \fBchobakwrap\fP package installer
+auto-detecting the system - and installing whichever
+implementation of this command is appropriate for
+the particular system.
+
+It should be noted -- not on every system will this
+command work in the ideal manner - and in some, it
+may not work at all (in which case it will be
+little more than a place-holder).
+However - in every system for which it is implemented
+it will do it's job to the best and fullest extent
+that the utilities available allow.
+
+This program will run for a specific number of seconds (the default is 5 but this can be overridden)
+during which time the utility does it's best
+to keep the machine from falling asleep.
+When that number of seconds is over, the program
+ends, and (unless it was called in background)
+the calling program may resume.
+.SH OPTIONS
+The options are processed in the order that they appear on the command line.
+Each option overrides any earlier option to it's contrary.
+.SS "Help Options"
+.IP "\fB\-\-help\fR" 4
+Displays this help file.
+If this option is invoked, the program will do nothing \fIexcept\fR
+display the help file.
+
+It should be noted that while this help\-file is written in the
+format of a \fBman\fR page, it's package does not actually
+\fIinstall\fR this help\-file as a \fBman\fR page.
+.IP "\fB\-\-help\-spc\Fr" 4
+This option displays the help-file that bears information \fIspecific\fR
+to the particular \fIimplementation\fR of this command on your computer.
+This option may not \fIyet\fR be implemented on every system's version
+of this command \-\- but if it hasn't been, it needs to be added,
+as it can contain \fIcrucial\fR troubleshooting information, including
+information about
+what tools a specific implementation relies upon.
+.SS "Mode Options"
+For information on the \fIdefault\fR behavior
+of this utility, read the description
+of the \fB-full\fR option in this section.
+
+Also remember that regardless of the mode,
+this command can not be any more effective
+than the tools used by the particular implementation
+allow - and that other situations
+(from a complete loss of power to a host\-system
+falling asleep) could render all attempts at
+caffeination futile.
+.IP "\fB\-full\fR" 4
+This option sets the caffeination to the maximum
+level of effectiveness possible \-\- which, by the way,
+is the default behavior of this utility.
+
+If at all possible, in this mode, the utility will \fIboth\fR keep the \fIcomputer\fR awake and the \fIdisplay\fR awake.
+It will not only, if possible,
+prevent the machine from falling asleep \-
+but will also, if possible prevent the \fBdisplay\fR
+from falling asleep or going into screensaver mode.
+.IP "\fB\-xscr1\fB" 4
+This option will ideally cause the utility to keep the machine awake \- yet do nothing to keep the display
+awake or prevent the screensaver from kicking in.
+.SS "Time Duration Options"
+.IP "\fB\-sec\fR <\fIseconds\fR>" 4
+Changes the number of seconds this program runs
+to <\fIseconds\fR>.
+.SS "Interface Spec Options"
+.IP "\fB\-v\fR" 4
+Presently, this option should cause the utility to just print to standard output one line containing just one character,

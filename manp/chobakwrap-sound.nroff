@@ -1,0 +1,65 @@
+.TH CHOBAKWRAP\-SOUND 1
+.SH NAME
+chobakwrap\-sound \- Abstraction command for playing audio files
+.SH SYNOPSIS
+.B chobakwrap\-sound
+(-vol [\fIvolume\fR]) -snd [\fIaudio-file\fR]
+.br
+.B chobakwrap\-sound
+\-\-help
+.br
+.B chobakwrap\-sound
+\-\-help\-spc
+.SH DESCRIPTION
+Different Unix\-type operating systems have different commands,
+with different interfaces, used for playing audio files.
+So as to make the task of playing audio-files easier for
+higher-level scripts, this lower-level command acts as an
+abstraction layer \-
+a command who's usage is as much as possible uniform across
+all systems for which it is implemented,
+but which on each individual operating system does whatever that system requires
+to get the job done.
+
+Multiple implementations of \fBchobakwrap\-sound\fR come bundled with \fBchobakwrap\fR -- and a script invoked by the installer auto-detects
+which operating system it is running on and installs whichever
+implementation fits that operating system.
+.SH OPTIONS
+The options are processed in the order that they appear on the command line.
+Each option overrides any earlier option to it's contrary.
+.TP
+.BR \-\-help
+Displays this help file.
+If this option is invoked, the program will do nothing \fIexcept\fR
+display the help file.
+
+It should be noted that while this help\-file is written in the
+format of a \fBman\fR page, it's package does not actually
+\fIinstall\fR this help\-file as a \fBman\fR page.
+.TP
+.BR \-\-help\-spc
+This option displays the help-file that bears information \fIspecific\fR
+to the particular \fIimplementation\fR of this command on your computer.
+This option may not \fIyet\fR be implemented on every system's version
+of this command \-\- but if it hasn't been, it needs to be added,
+as it can contain \fIcrucial\fR troubleshooting information, including
+information about
+what tools a specific implementation relies upon.
+.TP
+.BR \-snd " " <\fIaudio\-file\fR>
+The location of the audio-file to be played.
+This option is mandatory (except in the event that the
+\fB\-\-help\fR or \fB\-\-help\-spc\fR option is invoked)
+- and each time this program is invoked, it can play only
+\fIone\fR audio-file.
+.TP
+.BR -vol " " <\fIvolume\fR>
+This option specifies the volume at which the audio\-file
+is played - with 1 (the default) being the \fIfull\fR volume
+of the audo file and 0 instructing the command
+to be effectively silent.
+
+If the system-specific tool \fIused\fR by \fBchobakwrap\-sound\fR
+uses a different scale to specify volume,
+then \fBchobakwrap\-sound\fR will do the conversion so that
+the calling program can benefit from a uniform usage of this command.

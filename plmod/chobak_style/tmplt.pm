@@ -111,6 +111,29 @@ sub procpart {
       $lc_known = 10;
     }
     
+    if ( $lc_parts[0] eq 'enum' )
+    {
+      my @lc3_ray;
+      my $lc3_isz;
+      my @lc3_inf;
+      
+      @lc3_ray = @lc_parts;
+      $lc3_isz = @lc3_ray;
+      if ( $lc3_isz > 3.5 )
+      {
+        shift @lc3_ray; # Get rid of command:
+        @lc3_inf = (shift @lc3_ray); # Var Name
+        @lc3_inf = (@lc3_inf, (shift @lc3_ray)); # Min Size;
+        @lc3_inf = (@lc3_inf, [@lc3_ray]); Enumeration List
+        
+        # Now -- add the command
+        @lc_algo = (@lc_algo,[
+          &chobak_style::tmplt::efec::var_enum,[@lc3_inf]
+        ]);
+      }
+      $lc_known = 10;
+    }
+    
     
     if ( $lc_parts[0] eq '' )
     {
