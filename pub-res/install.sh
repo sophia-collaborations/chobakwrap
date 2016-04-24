@@ -106,7 +106,7 @@ fi
 
 
 
-cp "tmp/${fildesnom}" "${destina}/."
+perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${destina}/."
 chmod 755 "${destina}/${fildesnom}"
 
 if [ -f "after-install.sh" ]; then
