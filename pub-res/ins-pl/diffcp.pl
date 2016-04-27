@@ -7,6 +7,17 @@ my $difran;
 my $cmdn;
 
 ($sorca,$desta) = @ARGV;
+
+
+if ( !(-f $desta) )
+{
+  if ( -f $sorca )
+  {
+    exec("cp",$sorca,$desta);
+  }
+}
+
+
 $cmdn = "diff";
 &lst($cmdn,$sorca,$desta);
 $difran = `$cmdn`; chomp($difran);
