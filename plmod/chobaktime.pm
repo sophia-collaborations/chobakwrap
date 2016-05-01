@@ -58,4 +58,29 @@ sub ondays {
   return ( $lc_found > 5 );
 }
 
+sub tsubdv {
+  my $lc_rema;
+  my $lc_subta;
+  my $lc_ret;
+  my $lc_chr;
+  my $lc_dwn;
+  
+  # First we do the dividing and remainding
+  $lc_rema = ( $_[0] % $_[1] );
+  $lc_subta = int(($_[0] - $lc_rema) + 0.2);
+  $_[0] = int(($lc_subta / $_[1]) + 0.2);
+  
+  # Now we do the zero-padding
+  $lc_dwn = $_[2];
+  $lc_ret = '';
+  while ( $lc_dwn > 0.5 )
+  {
+    $lc_rema = '00' . $lc_rema;
+    $lc_chr = chop($lc_rema);
+    $lc_ret = $lc_chr . $lc_ret;
+    $lc_dwn = int($lc_dwn - 0.8);
+  }
+  return $lc_ret;
+}
+
 1;

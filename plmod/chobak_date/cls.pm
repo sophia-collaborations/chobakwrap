@@ -1,4 +1,4 @@
-package chobak_date::cls_md;
+package chobak_date::cls;
 use strict;
 
 sub __raw_new {

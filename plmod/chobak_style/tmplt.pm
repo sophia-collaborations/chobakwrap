@@ -3,6 +3,7 @@ use strict;
 use chobak_style::tmplt::cls;
 use chobak_style::tmplt::util;
 use chobak_style::tmplt::time;
+use chobak_style::tmplt::warn;
 use wraprg;
 
 sub new {
@@ -80,6 +81,13 @@ sub procpart {
     {
       @lc_algo = (@lc_algo,[\&chobak_style::tmplt::util::if_no,[$lc_parts[1]
         ,&procpart($lc_rcont,$lc_filename,'nofi')]])
+      ;
+      $lc_known = 10;
+    }
+    if ( $lc_parts[0] eq 'warn' )
+    {
+      @lc_algo = (@lc_algo,[\&chobak_style::tmplt::warn::mainwarn,[$lc_parts[1]
+        ,&procpart($lc_rcont,$lc_filename,'endwarn')]])
       ;
       $lc_known = 10;
     }
@@ -164,6 +172,13 @@ sub procpart {
 sub escap {
   my $lc_a;
   $lc_a = $_[0];
+  
+  $lc_a =~ s/&I;/|/g;
+  $lc_a =~ s/&I1;/|/g;
+  $lc_a =~ s/&I2;/||/g;
+  $lc_a =~ s/&I3;/|||/g;
+  $lc_a =~ s/&I4;/||||/g;
+  $lc_a =~ s/&I5;/|||||/g;
   
   $lc_a =~ s/&o;/{/g;
   $lc_a =~ s/&o1;/{/g;
