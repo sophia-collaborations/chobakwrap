@@ -41,6 +41,102 @@ sub dayow {
   return $lc_ret;
 }
 
+sub nm_g_year {
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%Y");
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
+sub nm_g_month {
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%m");
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
+sub nm_g_hour {
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%H");
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
+sub nm_g_min {
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%M");
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
+sub nm_g_sec {
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%S");
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
+sub nm_g_dayom {
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc,"+%d");
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
 sub ondays {
   my $lc_found;
   my $lc_each;
