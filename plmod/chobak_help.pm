@@ -11,6 +11,15 @@ sub ofnroff {
   exec($lc_cm);
 }
 
+sub oftxhlp {
+  my $lc_cm;
+  &argola::thatbeall($_[1]);
+  $lc_cm = "cat";
+  &wraprg::lst($lc_cm,$_[0]->{'txhfile'});
+  $lc_cm .= ' | less';
+  exec($lc_cm);
+}
+
 sub outsrc {
   my $lc_a;
   my @lc_b;
