@@ -84,6 +84,12 @@ from falling asleep or going into screensaver mode.
 .IP "\fB\-xscr1\fB" 4
 This option will ideally cause the utility to keep the machine awake \- yet do nothing to keep the display
 awake or prevent the screensaver from kicking in.
+.IP "\fB\-nocaf\fB" 4
+Don't actually do any caffeination - just a simple sleep.
+.IP "\fB\-none\fB" 4
+Don't actually do any caffeination - and don't even sleep.
+Used when having the calling program invoke this option is
+easier than having it just not invoke this program at all.
 .SS "Time Duration Options"
 .IP "\fB\-sec\fR <\fIseconds\fR>" 4
 Changes the number of seconds this program runs
