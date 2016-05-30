@@ -25,8 +25,8 @@ sub opto__f_rloc {
   exit(0);
 } &argola::setopt("-rloc",\&opto__f_rloc);
 
-&argola::help_opt('--help-sound','manp/chobakwrap-sound.nroff');
-&argola::help_opt('--help-caff','manp/chobakwrap-caff.nroff');
+&argola::help_opt('--help-sound','manp/chobakwrap-sound.1');
+&argola::help_opt('--help-caff','manp/chobakwrap-caff.1');
 
 &argola::runopts;
 
