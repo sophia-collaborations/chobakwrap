@@ -1,0 +1,2 @@
+manp/chobakwrap-caff.1:man1:chobakwrap-caff.1:
+manp/chobakwrap-sound.1:man1:chobakwrap-sound.1:

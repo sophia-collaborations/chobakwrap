@@ -109,6 +109,11 @@ fi
 perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${destina}/."
 chmod 755 "${destina}/${fildesnom}"
 
+
+
+perl "${pubresdir}/man-install.pl" "${pubresdir}"
+
+
 if [ -f "after-install.sh" ]; then
   exec sh after-install.sh
 fi
