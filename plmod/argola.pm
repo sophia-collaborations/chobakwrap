@@ -143,6 +143,15 @@ sub txt_help_opt {
   });
 }
 
+sub txt_spit_opt {
+  my $lc_hlpf;
+  
+  $lc_hlpf = $resorco . '/' . $_[1];
+  &setoptp($_[0],\&chobak_help::oftxspt,{
+    'txhfile' => $lc_hlpf,
+  });
+}
+
 sub osorc_opt {
   my @lc_ray;
   my $lc_lem;

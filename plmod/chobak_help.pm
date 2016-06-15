@@ -20,6 +20,15 @@ sub oftxhlp {
   exec($lc_cm);
 }
 
+sub oftxspt {
+  # This one is for just spitting out text-files.
+  my $lc_cm;
+  &argola::thatbeall($_[1]);
+  $lc_cm = "cat";
+  &wraprg::lst($lc_cm,$_[0]->{'txhfile'});
+  exec($lc_cm);
+}
+
 sub outsrc {
   my $lc_a;
   my @lc_b;

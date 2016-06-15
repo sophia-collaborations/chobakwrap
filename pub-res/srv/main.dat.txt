@@ -1,0 +1,70 @@
+:: This is the version of 'main.dat' that should be in the 'git-promulga'
+:: configuration directory of the local repo for every contributing
+:: developer working on 'chobakwrap' or any related project. To update it,
+:: simply go into that config directory - and from there type the following
+:: shell-command:
+::     chobakwrap --out-promulga > main.dat
+:: and probably more important - keep your local copy of 'chobakwrap'
+:: up-to-date.
+::
+:: This version of 'main.dat' is not for the primarch of the project,
+:: but for contributing developers. Also, it the primarch has intermediate
+:: officers in the project, this version of 'main.dat' isn't for the
+:: intermediate officers - only the contributors.
+::
+:: If someone wears more than one hat in this hierarchy - it may at
+:: times be deemed advisable to have a separate repo (privately, and
+:: if possible, publicly) for each hat.
+::
+:: It should be noted, that every local git-repo for development on these
+:: projects should be configured to the following two remotes:
+::     origin:  The public-repo of you, the contributing developer
+::               (and it may need to be on GitHub).
+::     official: The "blessed" repository of the project you are
+::               wanting to contribute to.
+
+:: The 'main' mode does rather little. It just syncs the dev branch
+:: with your development copy.
+main:valid:
+*:commit:
+*:remotes:origin:
+*:prcpull:dev:
+*:prcpush:dev:
+*:x:
+
+:: The 'update' mode makes sure your local copy is up-to-speed
+:: with the official version of the software.
+:: It is designed bearing in mind that 'dev' must always contain
+:: every commit 'master' has - but the reverse needn't be true.
+update:valid:
+*:commit:
+*:remotes:origin:official:
+*:prcpull:dev:
+*:merge:dev:master:
+*:prcpull:master:
+*:remotes:origin:
+*:prcpush:master:dev:
+*:x:
+
+:: (NOTE: The 'contrib' mode is presently incomplete.)
+:: The 'contrib' mode creates a separate branch of the repo
+:: with all the changes from the public version sqished into
+:: one little-bitty commit.
+contrib:valid:
+*:commit:
+*:sleep:5:Preparing a Contributions Branch
+*:sh:mkdir -p "${GIT_PROMULGA_DIR}/tmp"
+*:sh:date '+contrib/%Y/%m%d/%H%M%S' > "${GIT_PROMULGA_DIR}/tmp/cntb.txt"
+*:x:
+
+
+:: Last, but not least, we try to keep the configuration
+:: file up-to-date --- but you still must make sure that
+:: 'chobakwrap' is up-to-date.
+*:valid:
+*:sh:mkdir -p "${GIT_PROMULGA_DIR}/tmp"
+*:sh:( chobakwrap --out-promulga > "${GIT_PROMULGA_DIR}/tmp/main-dat.txt" && mv "${GIT_PROMULGA_DIR}/tmp/main-dat.txt" "${GIT_PROMULGA_DIR}/main.dat" )
+*:sh:rm -rf "${GIT_PROMULGA_DIR}/tmp"
+*:x:
+
+
