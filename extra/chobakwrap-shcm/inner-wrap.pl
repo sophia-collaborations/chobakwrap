@@ -39,7 +39,7 @@ sub opto_do__xf_x {
   $file_on = 0;
 } &argola::setopt('-xf',\&opto_do__xf_x);
 
-my opto_do__tkr_x {
+sub opto_do__tkr_x {
   my $lc_cm;
   &verifstillon();
   $procida = &argola::getrg();
