@@ -6,6 +6,27 @@ cd "${1}" || exit
 curdirec="$(pwd)"
 
 
+rm -rf tmp
+mkdir -p tmp
+
+# The following litany is in case any package has it's
+# own tests that must be run before install. This feature
+# was added so that an administrator could disable
+# installations of grunt tools that are installed with
+# chorebox in the event that zie has zir own implementation
+# installed from elsewhere.
+rm -rf tmp/checkret.txt
+if [ -f "check-before-install.pl" ]; then
+  perl "check-before-install.pl"
+  if [ -f "tmp/checkret.txt" ]; then
+    (
+      echo "Failed to install from: ${curdirec}:"
+    ) 1>&2
+    exit "$(cat tmp/checkret.txt)"
+  fi
+fi
+
+
 # Identify the project type
 projtype='cmd'
 if [ -f "proj-info/project-type.txt" ]; then
