@@ -21,7 +21,7 @@ sub verifstillon
 sub opto_do__f_x {
   my $lc_cm;
   &verifstillon();
-  if ( $file_on > 5 ) { system("rm","-rf",$file_on); }
+  if ( $file_on > 5 ) { system("rm","-rf",$file_at); }
   $file_at = &argola::getrg();
   $lc_cm = ('echo ' . &wraprg::bsc($procida) . ' > ' . &wraprg::bsc($file_at));
   system($lc_cm);
@@ -35,8 +35,18 @@ sub opto_do__do_x {
 
 sub opto_do__xf_x {
   &verifstillon();
-  if ( $file_on > 5 ) { system("rm","-rf",$file_on); }
+  if ( $file_on > 5 ) { system("rm","-rf",$file_at); }
+  $file_on = 0;
 } &argola::setopt('-xf',\&opto_do__xf_x);
+
+my opto_do__tkr_x {
+  my $lc_cm;
+  &verifstillon();
+  $procida = &argola::getrg();
+  if ( $file_on < 5 ) { return; }
+  $lc_cm = ('echo ' . &wraprg::bsc($procida) . ' > ' . &wraprg::bsc($file_at));
+  system($lc_cm);
+} &argola::setopt('-tkr',\&opto_do__tkr_x);
 
 &argola::runopts();
 
