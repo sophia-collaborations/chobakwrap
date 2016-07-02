@@ -1,0 +1,44 @@
+.TH CHOBAKWRAP 1
+.SH NAME
+chobakwrap - Centeral resource for the -chobak- software-architecture strategy
+.SH SYNOPSIS
+.B chobakwrap
+[\fIoptions\fR]
+.SH DESCRIPTION
+This program is invoked, in various ways, by every program
+that uses the \fIchobakwrap\fR software-architecture strategy.
+.SH OPTIONS
+The options are processed in the order that they appear on the command line.
+Each option overrides any earlier option to it's contrary.
+.SS "Help Options"
+.IP "\fB\-\-help\fR" 4
+Displays this help file.
+If this option is invoked, the program will do nothing \fIexcept\fR
+display the help file.
+
+It should be noted that while this help\-file is written in the
+format of a \fBman\fR page, it's package does not actually
+\fIinstall\fR this help\-file as a \fBman\fR page.
+.IP "\fB\-\-help\-caff\Fr" 4
+Displays the main system-generic help-file for
+\fBchobakwrap\-caff\fR.
+.IP "\fB\-\-help\-sound\Fr" 4
+Displays the main system-generic help-file for
+\fBchobakwrap\-sound\fR.
+.SS "Standard File Options"
+These options cause the program to simply send to standard-output
+what should
+be the content of various standard files in \fBchobakwrap\fR-based
+packages.
+.IP "\fB\-\-out\-install\fR" 4
+Spits out what needs to be the contents of "install.sh"
+in the main directory of every \fBchobakwrap\fR-based
+package.
+.IP "\fB\-\-out\-gitignore\fR" 4
+Spits out what needs to be the minimal contents of
+\(qt.gitignore\(qt in the main directory of every
+\fBchobakwrap\fR-based package.
+A specific project may have additional lines added
+to the ".gitignore" file that are not in the output
+that this option produces -
+but may not be lacking in any line that is present.

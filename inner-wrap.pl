@@ -27,6 +27,7 @@ sub opto__f_rloc {
 
 &argola::help_opt('--help-sound','manp/chobakwrap-sound.1');
 &argola::help_opt('--help-caff','manp/chobakwrap-caff.1');
+&argola::help_opt('--help','manp/chobakwrap.1');
 
 &argola::txt_spit_opt('--out-install','pub-res/srv/install.sh.txt');
 &argola::txt_spit_opt('--out-gitignore','pub-res/srv/gitignore.txt');
