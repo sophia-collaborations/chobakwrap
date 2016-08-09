@@ -1,4 +1,8 @@
 package chobak_jsio;
+# WARNING: Programs that use this library will not work unless
+# the following CPAN modules are installed:
+#   JSON
+
 use strict;
 use chobak_json;
 use chobak_io;
