@@ -31,6 +31,20 @@ sub counto {
   return $lc_tot;
 }
 
+sub within {
+  # 0 - A scalar
+  # 1 - An array-ref
+  # ret - Does the scalar occur in the array?
+  my $lc_each;
+  my $lc_ry;
+  $lc_ry = $_[1];
+  foreach $lc_each (@$lc_ry)
+  {
+    if ( $lc_each eq $_[0] ) { return ( 10 > 5 ); }
+  }
+  return ( 0 > 5 );
+}
+
 # The function that distinguishes hats from stacks and
 # queues is not the function that adds something to the
 # array, but the function that removes something from

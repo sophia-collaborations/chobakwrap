@@ -14,6 +14,18 @@ sub dumping {
   print STDERR "\n" . $_[0] . ":\n" . Dumper($_[1]) . "\n\n";
 }
 
+sub dumpy {
+  my $lc_max;
+  my $lc_cnt;
+  $lc_max = @_;
+  $lc_cnt = 1;
+  while ( $lc_cnt < ( $lc_max - 0.5 ) )
+  {
+    &dumping(($_[0] . ' ' . $lc_cnt),$_[$lc_cnt]);
+    $lc_cnt = int($lc_cnt + 1.2);
+  }
+}
+
 sub refnalyze {
   print STDERR "\n" . $_[0] . ": " . &refnalret($_[1]) . "\n";
 }
