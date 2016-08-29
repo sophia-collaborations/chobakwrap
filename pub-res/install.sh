@@ -5,6 +5,11 @@ pubresdir="$(cd "$(dirname "${0}")" && pwd)"
 cd "${1}" || exit
 curdirec="$(pwd)"
 
+CHOBAK_INSTALL_PREFIX="${HOME}"
+export CHOBAK_INSTALL_PREFIX
+CHOBAK_INSTALL_JAIL=""
+export CHOBAK_INSTALL_JAIL
+
 
 rm -rf tmp
 mkdir -p tmp
@@ -83,11 +88,15 @@ if [ -f "Makefile" ]; then
   # the file can actually be -created- without being tracked.
 fi
 
+virtual_curdirec="$(perl "${pubresdir}/ins-pl/virtual-cur-dir.pl" "${curdirec}")"
+
 
 (
   echo "#! $(which perl)"
   echo "use strict;"
-  echo "my \$resloc = \"${curdirec}\";"
+  #echo "my \$resloc = \"${curdirec}\";"
+  echo "my \$resloc = \"${virtual_curdirec}\";"
+  #echo "# line 1 \"${pubresdir}/outer-wrap.qpl-then\""
   echo "# line 1 \"${pubresdir}/outer-wrap.qpl-then\""
   cat "${pubresdir}/outer-wrap.qpl"
 ) > tmp/${fildesnom}
@@ -95,11 +104,28 @@ chmod 755 tmp/${fildesnom}
 perl -c tmp/${fildesnom} || exit 2
 
 
+
+
+# Resolve Jails and Prefixes
+foundo="$(perl "${pubresdir}/find-above.pl" ins-opt-code/dir-of-install-jail.txt x install.sh)"
+if [ "$foundo" != "x" ]; then
+  CHOBAK_INSTALL_JAIL="$(cat "${foundo}")"
+  export CHOBAK_INSTALL_JAIL
+  CHOBAK_INSTALL_PREFIX="/usr/local"
+  export CHOBAK_INSTALL_PREFIX
+fi
+foundo="$(perl "${pubresdir}/find-above.pl" ins-opt-code/dir-of-install-prefix.txt x install.sh)"
+if [ "$foundo" != "x" ]; then
+  CHOBAK_INSTALL_PREFIX="$(cat "${foundo}")"
+  export CHOBAK_INSTALL_PREFIX
+fi
+
+
 # Find the path-install location
 destina='x'
 onetype='cmd'
 if [ $projtype = $onetype ]; then
-  destina="${HOME}/bin"
+  destina="${CHOBAK_INSTALL_PREFIX}/bin"
   # Allow overriding of default:
   #if [ -f "ins-opt-code/dir-of-install.txt" ]; then
   foundo="$(perl "${pubresdir}/find-above.pl" ins-opt-code/dir-of-install.txt x install.sh)"
@@ -109,7 +135,7 @@ if [ $projtype = $onetype ]; then
 fi
 onetype='scrip-tll'
 if [ $projtype = $onetype ]; then
-  destina="${HOME}/scriptools"
+  destina="${CHOBAK_INSTALL_PREFIX}/scriptools"
   foundo="$(perl "${pubresdir}/find-above.pl" ins-opt-code/dir-of-install-scrip-tll.txt x install.sh)"
   if [ "$foundo" != "x" ]; then
     destina="$(cat "${foundo}")"
@@ -127,8 +153,8 @@ fi
 
 
 
-perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${destina}/."
-chmod 755 "${destina}/${fildesnom}"
+perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${CHOBAK_INSTALL_JAIL}${destina}/."
+chmod 755 "${CHOBAK_INSTALL_JAIL}${destina}/${fildesnom}"
 
 
 
