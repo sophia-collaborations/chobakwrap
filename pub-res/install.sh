@@ -161,6 +161,10 @@ chmod 755 "${CHOBAK_INSTALL_JAIL}${destina}/${fildesnom}"
 perl "${pubresdir}/man-install.pl" "${pubresdir}"
 
 
+
+rm -rf tmp
+
+
 if [ -f "after-install.sh" ]; then
   exec sh after-install.sh
 fi

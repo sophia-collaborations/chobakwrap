@@ -85,6 +85,20 @@ sub ry_push {
   @$lc_ref = (@$lc_ref,@lc_ray);
 }
 
+sub ry_m_push {
+  my $lc_ref;
+  my @lc_ray;
+  my $lc_each;
+  
+  $lc_ref = $_[1];
+  if ( ref($lc_ref) ne 'ARRAY' ) { return; }
+  @lc_ray = @$lc_ref;
+  foreach $lc_each (@lc_ray)
+  {
+    &ry_push($_[0],$lc_each);
+  }
+}
+
 sub mshfl {
   my $lc_rg;
   foreach $lc_rg (@_) { &shfl($lc_rg); }
