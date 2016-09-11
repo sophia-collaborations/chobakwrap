@@ -7,6 +7,25 @@ use argola;
 use strict;
 
 my @stv_command_act;
+my @perlxarg = ("perl");
+my $debugmode = 0;
+
+sub debug_on {
+  $debugmode = 10;
+}
+sub debug_off {
+  $debugmode = 0;
+}
+
+sub opt_to_perl {
+  my $lc_a;
+  foreach $lc_a (@_)
+  {
+    if ( $debugmode > 5 ) { system("echo",("Adding Argument: " . $lc_a)); }
+    @perlxarg = (@perlxarg,$lc_a);
+  }
+  &autopendent();
+}
 
 sub autopendent {
   my $lc_a;
@@ -25,7 +44,7 @@ sub sufficient {
   my $lc_a;
   my @lc_b;
   
-  @lc_b = ("perl");
+  @lc_b = @perlxarg;
   
   $lc_a = &argola::srcd();
   @lc_b = (@lc_b,"-I" . $lc_a . "/lc_plmod");
@@ -40,7 +59,7 @@ sub dependent {
   my $lc_a;
   my @lc_b;
   
-  @lc_b = ("perl");
+  @lc_b = @perlxarg;
   
   $lc_a = &argola::srcd();
   @lc_b = (@lc_b,"-I" . $lc_a . "/lc_plmod");
@@ -131,6 +150,8 @@ sub plex {
 }
 
 sub flplex {
+  &rundown_dbg("PERLIC",\@perlxarg);
+  if ( $debugmode > 5 ) { system("echo",&flplow(@_)); }
   exec(&flplow(@_));
 }
 
@@ -139,6 +160,18 @@ sub plesh {
 }
 sub sho {
   return system("echo",&plow(@_));
+}
+
+
+sub rundown_dbg {
+  my $lc_a;
+  my $lc_b;
+  if ( $debugmode < 5 ) { return; }
+  $lc_a = $_[1];
+  foreach $lc_b (@$lc_a)
+  {
+    system("echo",($_[0] . ': ' . $lc_b . ':'));
+  }
 }
 
 1;

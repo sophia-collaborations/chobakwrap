@@ -2,21 +2,46 @@ use strict;
 use plelorec;
 use argola;
 use alarmica;
+use File::Basename;
+use Cwd qw(realpath);
+
+my $ourdiro;
+$ourdiro = dirname(realpath($0));
 
 sub opto__f_run {
   my @lc_a;
-  @lc_a = &argola::remrg;
+  @lc_a = &argola::remrg();
   &plelorec::flplex(@lc_a);
 } &argola::setopt("-run",\&opto__f_run);
 
 sub opto__f_set {
   my $lc_a;
-  $lc_a = &argola::getrg;
+  $lc_a = &argola::getrg();
   &alarmica::regmsg($lc_a);
 } &argola::setopt("-set",\&opto__f_set);
 
 sub opto__f_entr {
 }
+
+sub opto__sub_set {
+  my $lc_subcm;
+  my $lc_subcfil;
+  my @lc_cmln;
+  
+  $lc_subcm = &argola::getrg();
+  $lc_subcfil = $ourdiro . '/submd/cm-' . $lc_subcm . '.pl';
+  if ( ! ( -f $lc_subcfil ) )
+  {
+    die("\nNo such 'chobakwrap' sub-command as '" . $lc_subcm . "':\n\n");
+  }
+  @lc_cmln = ($lc_subcfil);
+  while ( &argola::yet() )
+  {
+    @lc_cmln = (@lc_cmln,&argola::getrg());
+  }
+  plelorec::flplex(@lc_cmln);
+  exit(0);
+} &argola::setopt("-sub",\&opto__sub_set);
 
 sub opto__f_rloc {
   my $lc_a;
