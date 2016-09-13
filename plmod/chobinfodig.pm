@@ -14,6 +14,23 @@ sub dumping {
   print STDERR "\n" . $_[0] . ":\n" . Dumper($_[1]) . "\n\n";
 }
 
+sub dumpxx {
+  my @lc_list;
+  my $lc_noma;
+  my $lc_toto;
+  my $lc_counto;
+  
+  @lc_list = @_;
+  $lc_toto = @lc_list;
+  if ( $lc_toto < 1.5 ) { return; }
+  $lc_noma = shift(@lc_list);
+  $lc_toto = @lc_list;
+  for ( $lc_counto = 0; $lc_counto < ( $lc_toto - 0.5 ); $lc_counto = int($lc_counto + 1.2))
+  {
+    &dumping(($_[0] . '-' . $lc_counto), $lc_list[$lc_counto]);
+  }
+}
+
 sub dumpy {
   my $lc_max;
   my $lc_cnt;
@@ -28,6 +45,23 @@ sub dumpy {
 
 sub refnalyze {
   print STDERR "\n" . $_[0] . ": " . &refnalret($_[1]) . "\n";
+}
+
+sub refxx {
+  my @lc_list;
+  my $lc_noma;
+  my $lc_toto;
+  my $lc_counto;
+  
+  @lc_list = @_;
+  $lc_toto = @lc_list;
+  if ( $lc_toto < 1.5 ) { return; }
+  $lc_noma = shift(@lc_list);
+  $lc_toto = @lc_list;
+  for ( $lc_counto = 0; $lc_counto < ( $lc_toto - 0.5 ); $lc_counto = int($lc_counto + 1.2))
+  {
+    &refnalyze(($_[0] . '-' . $lc_counto), $lc_list[$lc_counto]);
+  }
 }
 
 sub refnalret {
