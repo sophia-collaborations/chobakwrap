@@ -59,7 +59,7 @@ sub byref {
     return &chobak_errutil::erfunc($lc_prm,4,'The reference file must exist - or be creatable.');
   }
   
-  $_[1] = &new($lc_refbas);
+  $_[1] = &new($lc_refbas,$lc_prm);
   return ( 2 > 1 );
   
 }
@@ -100,7 +100,7 @@ sub new {
   }
   
   # Now we load the file's contents
-  $lc_content = &chobak_jsonf::readf($this->{'read'});
+  $lc_content = &chobak_json::readf($this->{'read'});
   
   # And to enforce the root-type (that being the
   # designation of whether the file opened is to
