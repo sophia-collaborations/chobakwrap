@@ -16,10 +16,13 @@ sub byref {
   my $lc_refraw; # Raw form of ref filename
   my $lc_reftru; # Realpath of ref filename
   my $lc_refbas;
+  my $lc_can_create;
   
   $lc_prm = $_[2];
   if ( ref($lc_prm) ne 'HASH' ) { $lc_prm = {}; }
   
+  $lc_can_create = 10;
+  if ( $lc_prm->{'create'} eq 'no' ) { $lc_can_create = 0; }
   
   $lc_refraw = $_[0];
   {
@@ -32,7 +35,7 @@ sub byref {
   }
   if ( ! ( -f $lc_refraw ) )
   {
-    system("touch",$lc_refraw);
+    if ( $lc_can_create > 5 ) { system("touch",$lc_refraw); }
   }
   if ( ! ( -f $lc_refraw ) )
   {
@@ -52,7 +55,7 @@ sub byref {
   }
   if ( ! ( -f $lc_reftru ) )
   {
-    system("touch",$lc_reftru);
+    if ( $lc_can_create > 5 ) { system("touch",$lc_reftru); }
   }
   if ( ! ( -f $lc_reftru ) )
   {
