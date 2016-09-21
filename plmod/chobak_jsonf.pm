@@ -3,6 +3,66 @@ use strict;
 use chobak_jsonf::cls;
 use chobak_jsonf::util;
 use chobak_json;
+use chobak_errutil;
+use Cwd qw(realpath);
+
+sub byref {
+  # Rg0 - The ref file's location-string
+  # Rg1 - DEST of object
+  # Rg2 - Parameter hash (and where this function can
+  #       put detailed postmortem info)
+  # RET - 'true' upon success - 'false' upon failure
+  my $lc_prm; # Parameter hash
+  my $lc_refraw; # Raw form of ref filename
+  my $lc_reftru; # Realpath of ref filename
+  my $lc_refbas;
+  
+  $lc_prm = $_[2];
+  if ( ref($lc_prm) ne 'HASH' ) { $lc_prm = {}; }
+  
+  
+  $lc_refraw = $_[0];
+  {
+    my $lc2_a;
+    $lc2_a = substr($lc_refraw,-4);
+    if ( $lc2_a ne '.ref' )
+    {
+      return &chobak_errutil::erfunc($lc_prm,1,'Filename of reference file must end in ".ref".');
+    }
+  }
+  if ( ! ( -f $lc_refraw ) )
+  {
+    system("touch",$lc_refraw);
+  }
+  if ( ! ( -f $lc_refraw ) )
+  {
+    return &chobak_errutil::erfunc($lc_prm,2,'The reference file must exist - or be creatable.');
+  }
+  $lc_reftru = realpath($lc_refraw);
+  {
+    my $lc2_a;
+    $lc_refbas = substr($lc_reftru,0,-4);
+    $lc2_a = $lc_refbas . '.ref';
+    #$lc2_a = substr($lc_reftru,-4);
+    #if ( $lc2_a ne '.ref' )
+    if ( $lc2_a ne $lc_reftru )
+    {
+      return &chobak_errutil::erfunc($lc_prm,3,'Filename of reference file must end in ".ref".');
+    }
+  }
+  if ( ! ( -f $lc_reftru ) )
+  {
+    system("touch",$lc_reftru);
+  }
+  if ( ! ( -f $lc_reftru ) )
+  {
+    return &chobak_errutil::erfunc($lc_prm,4,'The reference file must exist - or be creatable.');
+  }
+  
+  $_[1] = &new($lc_refbas);
+  return ( 2 > 1 );
+  
+}
 
 # Current implementation of new() assumes
 # that either the provided filebase is an
