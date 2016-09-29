@@ -7,6 +7,22 @@ use plelorec;
 
 my @als = ();
 
+# Sorts a copy of the array referenced in the second argument
+# by value - returns element number Rg0 of that array to the
+# calling program.
+sub bestof_num {
+  my $lc_ref;
+  my @lc_presort;
+  my @lc_postsort;
+  
+  $lc_ref = $_[1];
+  @lc_presort = @$lc_ref;
+  @lc_postsort = sort {$a <=> $b} @lc_presort;
+  
+  $lc_ref = $_[0];
+  return $lc_postsort[$lc_ref]; 
+}
+
 sub opto__f_o {
   my $lc_a;
   $lc_a = &argola::getrg();
