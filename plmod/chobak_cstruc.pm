@@ -12,6 +12,29 @@ sub force_hash_has_hash {
   if ( ref($_[0]->{$_[1]}) ne 'HASH' ) { $_[0]->{$_[1]} = {}; }
 }
 
+sub upfirst {
+  my $lc_hld;
+  if ( &counto($_[1]) < 0.5 )
+  {
+    $lc_hld = $_[1];
+    $_[1] = $_[0];
+    $_[0] = $lc_hld;
+  }
+}
+
+sub upfrs_hrf {
+  my $lc_a;
+  my $lc_b;
+  
+  $lc_a = $_[0]->{$_[1]};
+  $lc_b = $_[2]->{$_[3]};
+  
+  &upfirst($lc_a,$lc_b);
+  
+  $_[0]->{$_[1]} = $lc_a;
+  $_[2]->{$_[3]} = $lc_b;
+}
+
 sub counto {
   my $lc_tot;
   my $lc_each;
