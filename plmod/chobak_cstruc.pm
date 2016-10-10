@@ -22,6 +22,19 @@ sub upfirst {
   }
 }
 
+sub rand_item_of_array {
+  my $lc_size;
+  my $lc_megarand;
+  my $lc_subrand;
+  my $lc_chosen;
+  $lc_size = &counto($_[0]);
+  $lc_megarand = int(rand($lc_size * 10));
+  $lc_subrand = ($lc_megarand % $lc_size);
+  $lc_chosen = $_[0]->[$lc_subrand];
+  
+  return($lc_chosen);
+}
+
 sub upfrs_hrf {
   my $lc_a;
   my $lc_b;
