@@ -12,6 +12,19 @@ sub force_hash_has_hash {
   if ( ref($_[0]->{$_[1]}) ne 'HASH' ) { $_[0]->{$_[1]} = {}; }
 }
 
+sub copy_fields {
+  my $lc_ref;
+  my $lc_itm;
+  $lc_ref = $_[2];
+  foreach $lc_itm (@$lc_ref)
+  {
+    if ( defined($_[0]->{$lc_itm}) )
+    {
+      $_[1]->{$lc_itm} = $_[0]->{$lc_itm};
+    }
+  }
+}
+
 sub upfirst {
   my $lc_hld;
   if ( &counto($_[1]) < 0.5 )
