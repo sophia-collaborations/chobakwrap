@@ -48,6 +48,20 @@ sub rand_item_of_array {
   return($lc_chosen);
 }
 
+sub keyref {
+  my $lc_ref;
+  my %lc_hash;
+  my @lc_ray;
+  my $lc_ret;
+  
+  $lc_ref = $_[0];
+  if ( ref($lc_ref) ne 'HASH' ) { return []; }
+  %lc_hash = %$lc_ref;
+  @lc_ray = keys %lc_hash;
+  $lc_ret = [@lc_ray];
+  return $lc_ret;
+}
+
 sub upfrs_hrf {
   my $lc_a;
   my $lc_b;
