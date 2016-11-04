@@ -12,6 +12,11 @@ sub force_hash_has_hash {
   if ( ref($_[0]->{$_[1]}) ne 'HASH' ) { $_[0]->{$_[1]} = {}; }
 }
 
+sub force_hash_has_it {
+  if ( defined($_[0]->{$_[1]}) ) { return; }
+  $_[0]->{$_[1]} = $_[2];
+}
+
 sub copy_fields {
   my $lc_ref;
   my $lc_itm;
