@@ -41,6 +41,26 @@ sub dayow {
   return $lc_ret;
 }
 
+sub nm_normdate {
+  # This function takes as it's argument a timestamp
+  # (that is seconds-since-epoque) representation of
+  # the date, and returns that moment translated into
+  # the default output format of the 'date' command.
+  my $lc_cnt;
+  my $lc_sorc;
+  my $lc_cmd;
+  my $lc_ret;
+  
+  $lc_cnt = @_;
+  $lc_sorc = $_[0];
+  if ( $lc_cnt < 0.5 ) { $lc_sorc = &nowo; }
+  $lc_cmd = "date -j -r";
+  &wraprg::lst($lc_cmd,$lc_sorc);
+  $lc_ret = `$lc_cmd`; chomp($lc_ret);
+  
+  return $lc_ret;
+}
+
 sub nm_g_year {
   my $lc_cnt;
   my $lc_sorc;
