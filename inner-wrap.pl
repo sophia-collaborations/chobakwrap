@@ -1,6 +1,7 @@
 use strict;
 use plelorec;
 use argola;
+use wraprg;
 use alarmica;
 use File::Basename;
 use Cwd qw(realpath);
@@ -30,6 +31,16 @@ sub opto__sub_set {
   
   $lc_subcm = &argola::getrg();
   $lc_subcfil = $ourdiro . '/submd/cm-' . $lc_subcm . '.pl';
+  if ( ! ( -f $lc_subcfil ) )
+  {
+    my $lc2_chk;
+    my $lc2_cm;
+    my $lc2_res;
+    $lc2_chk = $ourdiro . '/submd/cm-osid.pl';
+    $lc2_cm = 'perl ' . &wraprg::bsc($lc2_chk);
+    $lc2_res = `$lc2_cm`; chomp($lc2_res);
+    $lc_subcfil = $ourdiro . '/submd/os-' . $lc2_res . '-' . $lc_subcm . '.pl';
+  }
   if ( ! ( -f $lc_subcfil ) )
   {
     die("\nNo such 'chobakwrap' sub-command as '" . $lc_subcm . "':\n\n");
