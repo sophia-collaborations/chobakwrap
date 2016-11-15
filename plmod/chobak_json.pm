@@ -4,7 +4,7 @@ package chobak_json;
 #   JSON
 
 use strict;
-use JSON;
+use JSON::PP;
 use wraprg;
 
 # Arg 0: SOURCE: JSON string
