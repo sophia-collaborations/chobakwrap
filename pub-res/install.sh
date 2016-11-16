@@ -152,6 +152,10 @@ if [ $destina = $onetype ]; then
 fi
 
 
+echo
+echo perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${CHOBAK_INSTALL_JAIL}${destina}/."
+chmod 755 "${CHOBAK_INSTALL_JAIL}${destina}/${fildesnom}"
+echo
 
 perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${CHOBAK_INSTALL_JAIL}${destina}/."
 chmod 755 "${CHOBAK_INSTALL_JAIL}${destina}/${fildesnom}"

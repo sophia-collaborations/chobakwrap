@@ -52,6 +52,34 @@ sub opto__sub_set {
     $lc_subcfil = $ourdiro . '/submd/cm-' . $lc_subcm . '.pl';
   }
   
+  # Then, something on PATH for this purpose:
+  if ( ! ( -f $lc_subcfil ) )
+  {
+    my $lc2_cm;
+    my $lc2_rs;
+    my @lc2_go;
+    $lc2_cm = "which " . &wraprg::bsc(( 'chobakwrap--util--' . $lc_subcm ));
+    $lc2_rs = `$lc2_cm`;
+    chomp $lc2_rs;
+    if ( $lc2_rs ne '' )
+    {
+      # For this option, we go ahead an EXECute rather than rely on
+      # the chobakwrap library to invoke PERL for this.
+      @lc2_go = ($lc2_rs);
+      while ( &argola::yet() )
+      {
+        @lc2_go = (@lc2_go,&argola::getrg());
+      }
+      exec(@lc2_go);
+    }
+  }
+  
+  # Then, the last-resort OS-generic implementation:
+  if ( ! ( -f $lc_subcfil ) )
+  {
+    $lc_subcfil = $ourdiro . '/submd/lr-' . $lc_subcm . '.pl';
+  }
+  
   # END HIERARCHY OF OPTIONS FOR SUBCOMMANDS:
   
   
@@ -89,6 +117,10 @@ sub opto__sub_set {
 # operating systems (rather than one for every possible output
 # of "chobakwrap -sub osid") and may also vary based on other
 # system-configuration details.
+#   Oh - and there is the 'lr-' prefix that is just like the
+# 'cm-' prefix - except that one is for Last Resort, even after
+# attempting to find an implementation on the command execution
+# path (which would be prefixed by 'chobakwrap--util--').
 sub opto__deep_magic_sub_set {
   my $lc_subcm;
   my $lc_subcfil;
