@@ -35,6 +35,27 @@ sub lst {
   $_[0] = $lc_ret;
 }
 
+sub clct {
+  my @lc_rgx;
+  my $lc_count;
+  my $lc_first;
+  my $lc_ret;
+  
+  @lc_rgx = @_;
+  $lc_count = @lc_rgx;
+  if ( $lc_count < 0.5 ) { return ''; }
+  
+  $lc_first = shift(@lc_rgx);
+  $lc_ret = &bsc($lc_first);
+  
+  if ( $lc_count > 1.5 )
+  {
+    &lst($lc_ret,@lc_rgx);
+  }
+  
+  return $lc_ret;
+}
+
 
 
 1;
