@@ -54,7 +54,7 @@ sub runopts {
   my $lc_pram;
   my $lc_typ;
   my $lc_yot;
-  while ( &yet )
+  while ( &yet() )
   {
     $lc_crg = &getrg();
     $lc_found = 0;
