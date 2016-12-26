@@ -3,6 +3,7 @@ use plelorec;
 use argola;
 use wraprg;
 use alarmica;
+use chobaksemap;
 use File::Basename;
 use Cwd qw(realpath);
 
@@ -159,6 +160,19 @@ sub opto__f_rloc {
   exec("echo",$lc_a);
   exit(0);
 } &argola::setopt("-rloc",\&opto__f_rloc);
+
+sub opto__f_c {
+  my $lc_semapres;
+  my $lc_semapdir;
+  my $lc_binary;
+  my @lc_cmdon;
+  $lc_semapres = $ourdiro . '/build/cbin';
+  $lc_semapdir = &chobaksemap::smread($lc_semapres);
+  $lc_binary = ( $lc_semapdir . '/' . &argola::getrg . '.out' );
+  @lc_cmdon = ($lc_binary);
+  while ( &argola::yet() ) { @lc_cmdon = (@lc_cmdon, &argola::getrg()); }
+  exec(@lc_cmdon);
+} &argola::setopt("-c",\&opto__f_c);
 
 &argola::help_opt('--help-sound','manp/chobakwrap-sound.1');
 &argola::help_opt('--help-caff','manp/chobakwrap-caff.1');

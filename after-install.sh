@@ -1,4 +1,9 @@
 
+# Install the C tools:
+sh install-c-tools.sh
+
+
+
 # The grunt tools are low-level command-line tools
 
 ( cd extra/chobakwrap-pathfind && sh install.sh )
