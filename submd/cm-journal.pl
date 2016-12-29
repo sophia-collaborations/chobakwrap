@@ -24,7 +24,7 @@ sub opto__d_do {
 
 sub opto__apn_do {
   $apenda = &argola::getrg();
-}
+} &argola::setopt('-apn',\&opto__apn_do);
 
 &argola::runopts();
 
