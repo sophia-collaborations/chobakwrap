@@ -53,8 +53,9 @@ if ( !( -f $targfile ) )
   my $lc_cm;
   $lc_cm = 'echo ' . &wraprg::bsc($polite_date . '\n') . ' > ' . &wraprg::bsc($targfile);
   system($lc_cm);
-  system("open",$targfile); 
 }
+
+system("open",$targfile); 
 
 
 
