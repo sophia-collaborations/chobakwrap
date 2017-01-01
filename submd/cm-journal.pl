@@ -55,7 +55,7 @@ if ( !( -f $targfile ) )
   system($lc_cm);
 }
 
-system("open",$targfile); 
+system("chobakwrap",'-sub','txtedit',$targfile); 
 
 
 
