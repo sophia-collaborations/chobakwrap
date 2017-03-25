@@ -35,7 +35,29 @@ sub opto__sub_set {
   
   # BEGIN HIERARCHY OF OPTIONS FOR SUBCOMMANDS:
   
-  # First, the OS-specific implementation:
+  # First, something OVERRIDING on PATH for this purpose:
+  if ( 2 > 1 )
+  {
+    my $lc2_cm;
+    my $lc2_rs;
+    my @lc2_go;
+    $lc2_cm = "which " . &wraprg::bsc(( 'chobakwrap--toputil--' . $lc_subcm ));
+    $lc2_rs = `$lc2_cm`;
+    chomp $lc2_rs;
+    if ( $lc2_rs ne '' )
+    {
+      # For this option, we go ahead an EXECute rather than rely on
+      # the chobakwrap library to invoke PERL for this.
+      @lc2_go = ($lc2_rs);
+      while ( &argola::yet() )
+      {
+        @lc2_go = (@lc2_go,&argola::getrg());
+      }
+      exec(@lc2_go);
+    }
+  }
+  
+  # Next, the OS-specific implementation:
   if ( 2 > 1 )
   {
     my $lc2_chk;
