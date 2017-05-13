@@ -26,6 +26,11 @@ sub opto__apn_do {
   $apenda = &argola::getrg();
 } &argola::setopt('-apn',\&opto__apn_do);
 
+sub opto__dir_do {
+  if ( $jrnset < 5 ) { die("\nPlease use the -d option to identify a journal directory _before_ the '-dir':\n\n"); }
+  exec("chobakwrap","-sub","dir-open",$jrndir);
+} &argola::setopt('-dir',\&opto__dir_do);
+
 &argola::runopts();
 
 
