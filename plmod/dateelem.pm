@@ -50,6 +50,18 @@ my $standardo = {
     ,['l','-']
     ,['f',2,'dayom']
   ],
+  
+  'date_stamp_dshcode' => ['rc'
+    ,['f',4,'year']
+    ,['l','-']
+    ,['f',2,'month']
+    ,['l','-']
+    ,['f',2,'dayom']
+    ,['l','-']
+    ,['f',2,'hour']
+    ,['f',2,'min']
+    ,['f',2,'sec']
+  ],
 };
 
 
