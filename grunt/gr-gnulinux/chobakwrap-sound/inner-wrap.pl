@@ -23,11 +23,11 @@ sub opto__vol__y {
 
 if ( $sond_is < 5 )
 {
-  die "\nFATAL ERROR: Use -snd option to specify sound file:\n\n";
+  die "\nFATAL ERROR: Use -snd option to specify sound file:\n\n"; 
 }
 
 
 #exec("afplay","-v",$volumas,$sond_at);
-exec("mplayer",('--volume=' . ($volumas * 100)),$sond_at);
+exec("mplayer",'-volume',($volumas * 100),$sond_at);
 
 
