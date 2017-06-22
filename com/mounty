@@ -1,0 +1,7 @@
+#! /bin/sh
+
+sudo sshfs metatemp@metatemple.org: /mnt/metatemp \
+ -i /home/sophia/.ssh/id_rsa \
+ -o uid=1000 -o gid=1000
+
+
