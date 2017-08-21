@@ -1,5 +1,58 @@
 
-my $versio = "2015-08-29-01";
+my $versio = "2017-06-23-01";
+my @perl_lib_args = ();
+my @perl_lib_path = ();
+
+
+@perl_lib_path = (@perl_lib_path
+  ,($ENV{'HOME'} . '/gitter/pllib')
+);
+
+
+
+sub bsc {
+  my $lc_ret;
+  my $lc_src;
+  my $lc_chr;
+  $lc_src = scalar reverse $_[0];
+  $lc_ret = "\'";
+  while ( $lc_src ne "" )
+  {
+    $lc_chr = chop($lc_src);
+    if ( $lc_chr eq "\'" ) { $lc_chr = "\'\"\'\"\'"; }
+    $lc_ret .= $lc_chr;
+  }
+  $lc_ret .= "\'";
+  return $lc_ret;
+}
+
+
+{
+  #my $lc_a;
+  my @lc_b;
+  my $lc_c;
+  my $lc_d;
+  my @lc_e;
+  my $lc_f;
+  my $lc_cm;
+  #$lc_a = $ENV{'CHOBAKWRAP_PERL_LIB'};
+  #@lc_b = split(quotemeta(':'),$lc_a);
+  @lc_b = @perl_lib_path;
+  foreach $lc_c (@lc_b)
+  {
+    if ( $lc_c ne '' )
+    {
+      #@perl_lib_args = (@perl_lib_args,('-I' . $lc_c));
+      $lc_cm = 'ls -1d ' . &bsc($lc_c) . '/*/pllib';
+      $lc_d = `$lc_cm`;
+      @lc_e = split(/\n/,$lc_d);
+      foreach $lc_f (@lc_e)
+      {
+        if ( $lc_f ne '' ) { @perl_lib_args = (@perl_lib_args,('-I' . $lc_f)); }
+      }
+    }
+  }
+}
 
 my $plmodloc;
 my $plscrloc;
@@ -15,5 +68,5 @@ if ( ! ( -d $plmodloc ) )
   $plmodloc = $lc_a;
 }
 
-exec("perl", "-I" . $plscrloc, "-I" . $plmodloc, $resloc . "/inner-wrap.pl",$versio,$resloc,@ARGV);
+exec("perl", "-I" . $plscrloc, "-I" . $plmodloc, @perl_lib_args, $resloc . "/inner-wrap.pl",$versio,$resloc,@ARGV);
 
