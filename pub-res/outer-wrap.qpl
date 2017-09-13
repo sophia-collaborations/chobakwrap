@@ -43,7 +43,7 @@ sub bsc {
     if ( $lc_c ne '' )
     {
       #@perl_lib_args = (@perl_lib_args,('-I' . $lc_c));
-      $lc_cm = 'ls -1d ' . &bsc($lc_c) . '/*/pllib';
+      $lc_cm = 'ls -1d ' . &bsc($lc_c) . '/*/pllib 2> /dev/null';
       $lc_d = `$lc_cm`;
       @lc_e = split(/\n/,$lc_d);
       foreach $lc_f (@lc_e)
