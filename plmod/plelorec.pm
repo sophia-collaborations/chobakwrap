@@ -10,6 +10,9 @@ my @stv_command_act;
 my @perlxarg = ("perl");
 my $debugmode = 0;
 
+# This array is added so that I can have extra libraries called for.
+my @opt_perl_lib = ();
+
 sub debug_on {
   $debugmode = 10;
 }
@@ -138,11 +141,23 @@ sub flplow {
   if ( $lc_ix < 0.5 ) { die "\nINSUFFICIENT ARGUMENTS: to plexof:\n\n"; }
   $lc_comname = shift(@lc_pasd);
   
+  @lc_comd = (@lc_comd, @opt_perl_lib); # Perl library options
   @lc_comd = (@lc_comd, $lc_comname);
   @lc_comd = (@lc_comd, $lc_vrs, $lc_res);
   @lc_comd = (@lc_comd,@lc_pasd);
   
   return @lc_comd;
+}
+
+sub another_perl_libdir {
+  my $lc_a;
+  foreach $lc_a (@_)
+  {
+    if ( $lc_a ne '' )
+    {
+      if ( -d $lc_a ) { @opt_perl_lib = (@opt_perl_lib, ('-I' . $lc_a)); }
+    }
+  }
 }
 
 sub plex {

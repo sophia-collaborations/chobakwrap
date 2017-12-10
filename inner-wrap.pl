@@ -16,6 +16,11 @@ sub opto__f_run {
   &plelorec::flplex(@lc_a);
 } &argola::setopt("-run",\&opto__f_run);
 
+sub opto__f_lib {
+  &plelorec::another_perl_libdir(&argola::getrg());
+} &argola::setopt("-lib",\&opto__f_lib);
+
+
 sub opto__f_set {
   my $lc_a;
   $lc_a = &argola::getrg();
