@@ -60,7 +60,7 @@ if ( !( -f $targfile ) )
   system($lc_cm);
 }
 
-system("chobakwrap",'-sub','txtedit',$targfile); 
+system("chobakwrap",'-sub','txtedit-obg',$targfile);
 
 
 
