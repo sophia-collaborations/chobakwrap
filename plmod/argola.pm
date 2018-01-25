@@ -84,7 +84,12 @@ sub runopts {
       {
         die "\n" . $_[0] . ": FATAL ERROR:\nUnknown Option: " . $lc_crg . ":\n\n";
       }
-      &$spare_arg_fnc($lc_crg);
+      if ( &$spare_arg_fnc($lc_crg) < 5 )
+      {
+        die "\n" . $_[0]
+          . ": FATAL ERROR:\nInvalid Argument or Option: " . $lc_crg . ":\n\n"
+        ;
+      }
       $lc_yot = ( 1 > 2 );
     }
     
