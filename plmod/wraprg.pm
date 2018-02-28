@@ -62,7 +62,16 @@ sub rel_sm {
   my $lc_a;
   $lc_a = substr $_[1], 0, 1;
   if ( $lc_a eq '/' ) { return $_[1]; }
+  if ( $_[0] eq '/' ) { return ( '/' . $_[1] ); }
   return ( $_[0] . '/' . $_[1] );
+}
+
+sub abro {
+  my $lc_a;
+  my $lc_b;
+  $lc_a = $_[0];
+  $lc_b = `$lc_a`;
+  return $lc_b;
 }
 
 
