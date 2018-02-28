@@ -1,5 +1,7 @@
 package wraprg;
 use strict;
+use File::Basename;
+use Cwd qw(realpath);
 
 
 
@@ -55,6 +57,15 @@ sub clct {
   
   return $lc_ret;
 }
+
+sub rel_sm {
+  my $lc_a;
+  $lc_a = substr $_[1], 0, 1;
+  if ( $lc_a eq '/' ) { return $_[1]; }
+  return ( $_[0] . '/' . $_[1] );
+}
+
+
 
 
 
