@@ -66,6 +66,81 @@ sub rel_sm {
   return ( $_[0] . '/' . $_[1] );
 }
 
+
+sub evalout {
+  my $lc_src;
+  my $lc_bgan;
+  my @lc_out;
+  my @lc_in;
+  my @lc_parts;
+  my $lc_parto;
+  my $lc_good;
+  my $lc_each; # Each part as we reassemble the resultant
+  my $lc_ret; # Will become the reassembled resultant
+  my $lc_div; # The divisor as we reassemble the resultant
+  my $lc_gret; # The finally arrayref that we return.
+
+  $lc_good = 10;
+
+  # Both parts of the resultant start empty  
+  @lc_out = ();
+  @lc_in = ();
+
+  # We need to obtain the source - including
+  # info on whether or not it is an absolute
+  # path.
+  $lc_bgan = 0;
+  $lc_src = $_[0];
+  {
+    my $lc2_a;
+    $lc2_a = substr $_[0], 0, 1;
+    if ( $lc2_a eq '/' )
+    {
+      $lc_bgan = 10;
+      $lc_src = substr $_[0], 1;
+    }
+  }
+
+  # Now we split the source string into parts
+  @lc_parts = split(quotemeta('/'),$lc_src);
+
+  foreach $lc_parto (@lc_parts)
+  {
+    my $lc2_ok;
+    $lc2_ok = 10;
+
+    if ( $lc_parto eq '.' ) { $lc2_ok = 0; }
+
+    if ( $lc_parto eq '..' )
+    {
+      my $lc3_a;
+      $lc3_a = @lc_in;
+      if ( $lc3_a > 0.5 ) { pop(@lc_in); }
+      if ( $lc3_a < 0.5 )
+      {
+        @lc_out = (@lc_out,'..');
+        if ( $lc_bgan > 5 ) { $lc_good = 0; }
+      }
+      $lc2_ok = 0;
+    }
+
+    if ( $lc2_ok > 5 ) { @lc_in = (@lc_in,$lc_parto); }
+  }
+  
+  $lc_ret = '';
+  $lc_div = '';
+  if ( $lc_bgan > 5 ) { $lc_ret = '/' }
+  foreach $lc_each ((@lc_out,@lc_in))
+  {
+    $lc_ret .= $lc_div . $lc_each;
+    $lc_div = '/';
+  }
+
+  # And now for the returning
+  $lc_gret = [ ( $lc_good > 5 ), $lc_ret ];
+  return $lc_gret;
+}
+
 sub abro {
   my $lc_a;
   my $lc_b;

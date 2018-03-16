@@ -151,6 +151,10 @@ if [ $destina = $onetype ]; then
   ) 1>&2
 fi
 
+if [ -f "pre-cm-add.sh" ]; then
+  sh "pre-cm-add.sh"
+fi
+
 
 perl "${pubresdir}/ins-pl/diffcp.pl" "tmp/${fildesnom}" "${CHOBAK_INSTALL_JAIL}${destina}/."
 chmod 755 "${CHOBAK_INSTALL_JAIL}${destina}/${fildesnom}"
