@@ -151,6 +151,16 @@ if [ $destina = $onetype ]; then
   ) 1>&2
 fi
 
+
+# If there are binaries to be compiled, now is a time
+# to do it.
+if [ -f 'bnr-req.txt' ]; then
+  perl "$(chobakwrap -rloc)/pub-res/build-binaries.pl"
+fi
+
+
+# Any last-moment things to do BEFORE the wrapper on the
+# execution path is updated?
 if [ -f "pre-cm-add.sh" ]; then
   sh "pre-cm-add.sh"
 fi
