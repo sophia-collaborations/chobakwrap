@@ -2,9 +2,11 @@
 # project.
 use strict;
 
-my $compilor = 'gcc';
+my @compilor = ('gcc');
 my $semapa;
 my @codelines;
+my @compiled_c_sr = ();
+my @included_c_sr = ();
 
 
 # Let us make sure that there is a gitignore
@@ -62,12 +64,81 @@ if ( -f 'bnr-flag.txt' ) { $semapa = 'b'; }
 
 system('rm -rf bnr-prep');
 system('mkdir bnr-prep');
+system('rm','-rf',('bnr-' . $semapa));
+system('mkdir',('bnr-' . $semapa));
 
 # Now we load the lines of the binary requisite file:
 {
   my $lc_a;
   $lc_a = `cat bnr-req.txt`;
   @codelines = split(/\n/,$lc_a);
+}
+
+{
+  my $lc_a;
+  foreach $lc_a (@codelines) { &eachline($lc_a); }
+}
+sub eachline {
+  my $lc_jnk;
+  my $lc_ltype;
+  my $lc_item;
+  my $lc_each;
+  ($lc_jnk,$lc_ltype,$lc_item) = split(/:/,('x' . $_[0]));
+
+  if ( $lc_ltype eq '' ) { return; }
+
+  if ( $lc_ltype eq 'csrc' )
+  {
+    if ( &absentee($lc_item,\@compiled_c_sr) )
+    {
+      system(@compilor,'-c','-o',('bnr-prep/' . $lc_item . '.o'),('bnr-src/' . $lc_item . '.c'));
+      @compiled_c_sr = (@compiled_c_sr,$lc_item);
+    }
+    if ( &absentee($lc_item,\@included_c_sr) )
+    {
+      @included_c_sr = (@included_c_sr,$lc_item);
+    }
+    return;
+  }
+
+  if ( $lc_ltype eq 'cbin' )
+  {
+    my @lc_cm;
+    @lc_cm = (@compilor,'-o',('bnr-' . $semapa . '/' . $lc_item));
+    foreach $lc_each (@included_c_sr)
+    {
+      @lc_cm = (@lc_cm,('bnr-prep/' . $lc_each . '.o'));
+    }
+    system(@lc_cm);
+    @included_c_sr = ();
+    return;
+  }
+
+  die("\nNo such line type: " . $lc_ltype . ":\n\n");
+}
+
+sub absentee {
+  my $lc_a;
+  my @lc_b;
+  $lc_a = $_[1];
+  @lc_b = @$lc_a;
+  foreach $lc_a (@lc_b)
+  {
+    if ( $_[0] eq $lc_a ) { return(1>2); }
+  }
+  return(2>1);
+}
+
+sub presentee {
+  my $lc_a;
+  my @lc_b;
+  $lc_a = $_[1];
+  @lc_b = @$lc_a;
+  foreach $lc_a (@lc_b)
+  {
+    if ( $_[0] eq $lc_a ) { return(2>1); }
+  }
+  return(1>2);
 }
 
 
