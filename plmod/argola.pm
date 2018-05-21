@@ -26,6 +26,18 @@ sub getrg {
   return $lc_ret;
 }
 
+sub argyet {
+  my $lc_a;
+  $lc_a = @argbuft;
+  return ( $lc_a > 0.5 );
+}
+
+sub argdone {
+  my $lc_a;
+  $lc_a = @argbuft;
+  return ( $lc_a < 0.5 );
+}
+
 sub nonoptarg {
   $spare_arg_fnc = $_[0];
   $spare_arg_yes = 10;
