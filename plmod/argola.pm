@@ -26,11 +26,11 @@ sub getrg {
   return $lc_ret;
 }
 
-sub argyet {
-  my $lc_a;
-  $lc_a = @argbuft;
-  return ( $lc_a > 0.5 );
-}
+#sub argyet {
+#  my $lc_a;
+#  $lc_a = @argbuft;
+#  return ( $lc_a > 0.5 );
+#}
 
 sub argdone {
   my $lc_a;
