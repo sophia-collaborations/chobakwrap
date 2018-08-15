@@ -4,6 +4,22 @@ use File::Basename;
 use Cwd qw(realpath);
 
 
+sub revsplit {
+  my $lc_spl;
+  my $lc_src;
+  my @lc_raw;
+  my @lc_ret;
+  my $lc_each;
+  $lc_spl = scalar reverse $_[0];
+  $lc_src = scalar reverse $_[1];
+  @lc_raw = split(quotemeta($lc_spl),$lc_src,$_[2]);
+  @lc_ret = ();
+  foreach $lc_each (@lc_raw)
+  {
+    @lc_ret = ((scalar reverse $lc_each),@lc_ret);
+  }
+  return @lc_ret;
+}
 
 sub bsc {
   my $lc_ret;
