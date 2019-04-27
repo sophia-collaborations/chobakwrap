@@ -10,17 +10,34 @@ use strict;
 use argola;
 
 my @the_c_comd;
+my @the_rgx_a; # The libraric options passed to this wrapper
+my @the_rgx_b; # The non-libraric options passed to this wrapper
 my $hme;
 
 $hme = $ENV{'HOME'};
 
-@the_c_comd = ('gcc',('-L' . $hme . '/chobakwrap/cliba'));
-@the_c_comd = (@the_c_comd,('-I' . $hme . '/chobakwrap/clibh'));
-
+@the_rgx_a = ();
+@the_rgx_b = ();
 while ( &argola::yet() )
 {
-  @the_c_comd = (@the_c_comd,&argola::getrg());
+  my $lc_new;
+  my $lc_bgn;
+  my $lc_ok;
+  $lc_new = &argola::getrg();
+  $lc_bgn = substr $lc_new, 0, 2;
+  $lc_ok = 10;
+  if ( $lc_bgn eq '-L' ) { $lc_ok = 0; }
+  if ( $lc_bgn eq '-I' ) { $lc_ok = 0; }
+  if ( $lc_ok > 5 ) { @the_rgx_b = (@the_rgx_b,$lc_new); }
+  if ( $lc_ok < 5 ) { @the_rgx_a = (@the_rgx_a,$lc_new); }
 }
+
+@the_c_comd = ('gcc');
+@the_c_comd = (@the_c_comd,@the_rgx_a);
+@the_c_comd = (@the_c_comd,('-L' . $hme . '/chobakwrap/cliba'));
+@the_c_comd = (@the_c_comd,@the_rgx_b);
+@the_c_comd = (@the_c_comd,('-I' . $hme . '/chobakwrap/clibh'));
+
 
 #@the_c_comd = ('echo',@the_c_comd);
 system(@the_c_comd);
