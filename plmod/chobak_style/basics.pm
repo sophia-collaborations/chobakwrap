@@ -4,6 +4,17 @@ use chobak_style::tmplt;
 use chobak_style::dlog::cls;
 use chobak_fnc;
 
+my $swaproo = [];
+
+sub moreswaps {
+  my $this;
+  my $lc_msw;
+  $this = shift;
+
+  $lc_msw = $_[0];
+  @$swaproo = (@$swaproo,@$lc_msw);
+}
+
 sub load {
   my $this;
   my $lc_found;
@@ -11,7 +22,40 @@ sub load {
   my $lc_pthvar;
   my $lc_onabsent;
   my $lc_explain;
+  my $lc_zerovar;
+  my $lc_swpitem;
   $this = shift;
+
+  $lc_zerovar = $_[0];
+  # BEGIN SWAP PROCESSING
+  foreach $lc_swpitem (@$swaproo)
+  {
+    my $lc2_a;
+    $lc2_a = $lc_zerovar;
+
+    if ( $lc_swpitem->[0] eq 'repl' )
+    {
+      if ( $lc_swpitem->[1] eq $lc_zerovar )
+      {
+        $lc2_a = $lc_swpitem->[2];
+      }
+    }
+
+    if ( $lc_swpitem->[0] eq 'swap' )
+    {
+      if ( $lc_swpitem->[1] eq $lc_zerovar )
+      {
+        $lc2_a = $lc_swpitem->[2];
+      }
+      if ( $lc_swpitem->[2] eq $lc_zerovar )
+      {
+        $lc2_a = $lc_swpitem->[1];
+      }
+    }
+
+    $lc_zerovar = $lc2_a;
+  }
+  # END SWAP PROCESSING
   
   $lc_explain = "  purpose: (no explanation provided):\n";
   if ( defined($_[2]) )
@@ -25,7 +69,7 @@ sub load {
   $lc_pthvar = $this->{'path'};
   $lc_onabsent = $this->{'pref'}->{'on-absent-template'};
   
-  if ( ! ( &chobak_fnc::pathfind($_[0],$lc_pthvar,$lc_found) ) )
+  if ( ! ( &chobak_fnc::pathfind($lc_zerovar,$lc_pthvar,$lc_found) ) )
   {
     if ( $lc_onabsent eq 'skip' ) { return; }
     if ( $lc_onabsent eq 'blank' )
@@ -35,7 +79,7 @@ sub load {
     }
     if ( $lc_onabsent eq 'warn' )
     {
-      print STDERR "WARNING: Missing Template: " . $_[0] . ":\n";
+      print STDERR "WARNING: Missing Template: " . $lc_zerovar . ":\n";
       print STDERR $lc_explain;
       $this->{'tmpl'}->{$_[1]} = &chobak_style::tmplt::new_blank();
       return;
@@ -44,7 +88,7 @@ sub load {
     # The official default of $lc_onabsent is 'die'
     
     my $lc2_ech;
-    $lc_dth = "\nFATAL ERROR: '" . $_[0] . "' not found on path:\n";
+    $lc_dth = "\nFATAL ERROR: '" . $lc_zerovar . "' not found on path:\n";
     $lc_dth .= $lc_explain;
     foreach $lc2_ech (@$lc_pthvar)
     {
