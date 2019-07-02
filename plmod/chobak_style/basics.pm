@@ -79,7 +79,7 @@ sub load {
     }
     if ( $lc_onabsent eq 'warn' )
     {
-      print STDERR "WARNING: Missing Template: " . $lc_zerovar . ":\n";
+      print STDERR "WARNING: Missing Template: " . $lc_zerovar . " :\n";
       print STDERR $lc_explain;
       $this->{'tmpl'}->{$_[1]} = &chobak_style::tmplt::new_blank();
       return;
