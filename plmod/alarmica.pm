@@ -450,6 +450,7 @@ sub shlc_vol {
   
   $lc_ret = "( ( chobakwrap-sound -vol";
   &wraprg::lst($lc_ret,$_[0],'-snd',$soundfl);
+  $lc_ret .= ' > /dev/null 2> /dev/null ';
   $lc_ret .= " &bg ) || true )";
   
   return $lc_ret;
